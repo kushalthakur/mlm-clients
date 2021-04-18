@@ -11,7 +11,7 @@ export const authenticate = (data = {}) => {
       ],
       payload: {
          request: {
-            url: `/`,
+            url: "/login",
             method: 'POST',
             data
          }

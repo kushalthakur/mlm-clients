@@ -1,7 +1,8 @@
+import { FC, ReactElement } from 'react'
 import {
    withStyles, Theme, createStyles, makeStyles, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button
 } from '@material-ui/core';
-import { Icon } from '../../components/ui'
+import { EditIcons } from '../../components/ui'
 
 const StyledTableCell = withStyles((theme: Theme) =>
    createStyles({
@@ -51,8 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
       }
    }))
 
-
-export default function Member() {
+const Member: FC<any> = (): ReactElement => {
    const classes = useStyles();
    return (
       <TableContainer component={Paper}>
@@ -83,7 +83,7 @@ export default function Member() {
                      <StyledTableCell>{row.carbs}</StyledTableCell>
                      <StyledTableCell>{row.protein}</StyledTableCell>
                      <StyledTableCell><Button color="secondary">Active</Button></StyledTableCell>
-                     <StyledTableCell><Icon fontSize="small" color="primary" /></StyledTableCell>
+                     <StyledTableCell><EditIcons fontSize="small" color="primary" /></StyledTableCell>
                   </StyledTableRow>
                ))}
             </TableBody>
@@ -91,3 +91,5 @@ export default function Member() {
       </TableContainer>
    );
 }
+
+export default Member

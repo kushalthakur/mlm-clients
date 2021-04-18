@@ -1,107 +1,86 @@
-import React from 'react';
-import {
-   Avatar, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography, makeStyles, Container
-} from '@material-ui/core';
-
-function Copyright() {
-   return (
-      <Typography variant="body2" color="textSecondary" align="center">
-         {'Copyright © '}
-         <Link color="inherit" href="https://material-ui.com/">
-            Your Website
-      </Link>{' '}
-         {new Date().getFullYear()}
-         {'.'}
-      </Typography>
-   );
+import { FC, ReactElement } from 'react'
+import { connect } from 'react-redux'
+import { Field, reduxForm } from 'redux-form'
+import { Avatar, Button, CssBaseline, FormControlLabel, Checkbox, Link, Grid, Typography, Container } from '@material-ui/core'
+import { PermIdentitySharpIcons } from '../components/ui'
+import { FormInput, ReduxValidation } from '../components/Forms'
+import { loginStyles } from '../_thems'
+import { ApplicationState } from '../reducers'
+import { authenticate } from '../actions'
+export interface IUserForm {
+   id: string
+   name: string
+   email: string
+   phone: string
+   password: string
+   founderClubMember: number
+   role: string
+   status: number
+   createdAt?: string
+   updatedAt?: string
 }
 
-const useStyles = makeStyles((theme) => ({
-   paper: {
-      marginTop: theme.spacing(8),
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-   },
-   avatar: {
-      margin: theme.spacing(1),
-      backgroundColor: theme.palette.secondary.main,
-   },
-   form: {
-      width: '100%', // Fix IE 11 issue.
-      marginTop: theme.spacing(1),
-   },
-   submit: {
-      margin: theme.spacing(3, 0, 2),
-   },
-}));
+interface Props {
+   handleSubmit: any
+   authenticate: Array<any>
+   login: Function
+   history: any
+}
 
-export default function Login() {
-   const classes = useStyles();
-
+const Login: FC<Props> = (props: Props): ReactElement => {
+   const classes = loginStyles();
+   const { handleSubmit } = props
    return (
       <Container component="main" maxWidth="xs">
          <CssBaseline />
          <div className={classes.paper}>
             <Avatar className={classes.avatar}>
-               {/* <LockOutlinedIcon /> */}
+               <PermIdentitySharpIcons />
             </Avatar>
             <Typography component="h1" variant="h5">
-               Sign in
-        </Typography>
-            <form className={classes.form} noValidate>
-               <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  autoFocus
+               Sign In
+            </Typography>
+            <form className={classes.form} noValidate onSubmit={handleSubmit}>
+               <Field component={FormInput} variant="outlined" margin="normal" fullWidth label="Email Address" name="email"
+                  isEditable={true}
+                  validate={[ReduxValidation.required, ReduxValidation.email]}
                />
-               <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-               />
-               <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="Remember me"
-               />
-               <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  className={classes.submit}
-               >
+               <Field component={FormInput} variant="outlined" margin="normal" fullWidth label="Password" name="password" type="password"
+                  isEditable={true}
+                  validate={[ReduxValidation.required, ReduxValidation.minLength]} />
+               <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
+               <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
                   Sign In
-          </Button>
+               </Button>
                <Grid container>
                   <Grid item xs>
                      <Link href="#" variant="body2">
                         Forgot password?
-              </Link>
-                  </Grid>
-                  <Grid item>
-                     <Link href="#" variant="body2">
-                        {"Don't have an account? Sign Up"}
                      </Link>
                   </Grid>
                </Grid>
             </form>
          </div>
-         <Box mt={8}>
-            <Copyright />
-         </Box>
       </Container>
    );
 }
+
+const LoginForm = reduxForm({
+   form: 'LoginForm',
+   onSubmit: (data: IUserForm, dispatch, props: Props) => {
+      props.login({ email: data.email, password: data.password })
+      // props.history.push('/tab')
+   }
+})(Login)
+
+const mapStateToProps = (state: ApplicationState) => {
+   return {
+      authenticate: state.authenticate
+   }
+}
+
+const mapDispatchToProps = {
+   login: authenticate
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)

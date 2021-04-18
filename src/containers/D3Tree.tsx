@@ -1,4 +1,4 @@
-import React from 'react'
+import { FC, ReactElement } from 'react'
 import Tree from 'react-d3-tree'
 import { treeData } from '../_helpers/tree'
 import '../custom-tree.css'
@@ -9,7 +9,7 @@ const containerStyles = {
    height: '88vh',
 }
 
-function D3Tree() {
+const D3Tree: FC<any> = (): ReactElement => {
    const [translate, containerRef] = useCenteredTree();
    return (
       <div style={containerStyles} ref={containerRef}>

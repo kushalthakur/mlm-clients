@@ -3,13 +3,13 @@ import {
 } from '../constants'
 
 interface IAuthenticateState {
-   data: any,
+   user: any,
    loading: boolean,
    error: any
 }
 
 const initialState: IAuthenticateState = {
-   data: undefined,
+   user: undefined,
    loading: false,
    error: null
 }
