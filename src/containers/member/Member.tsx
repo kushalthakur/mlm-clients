@@ -1,35 +1,11 @@
 import { FC, ReactElement } from 'react'
-import {
-   withStyles, Theme, createStyles, makeStyles, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button
-} from '@material-ui/core';
+import { Table, TableBody, TableContainer, TableHead, TableRow, Paper, Button } from '@material-ui/core';
 import { EditIcons } from '../../components/ui'
-
-const StyledTableCell = withStyles((theme: Theme) =>
-   createStyles({
-      head: {
-         backgroundColor: theme.palette.common.black,
-         color: theme.palette.common.white,
-      },
-      body: {
-         fontSize: 12,
-      },
-   }),
-)(TableCell);
-
-const StyledTableRow = withStyles((theme: Theme) =>
-   createStyles({
-      root: {
-         '&:nth-of-type(odd)': {
-            backgroundColor: theme.palette.action.hover,
-         },
-      },
-   }),
-)(TableRow);
+import { memberStyles, StyledTableCell, StyledTableRow } from '../../_thems'
 
 function createData(name: number, calories: string, fat: string, carbs: number, protein: number) {
    return { name, calories, fat, carbs, protein };
 }
-
 const rows = [
    createData(383262435, 'Thakur Kushal', "kumarthakur@gmail.com", 24, 4.0),
    createData(321074060, 'Ashwin', "ashwin@gmail.com", 37, 4.3),
@@ -39,21 +15,8 @@ const rows = [
    createData(276446902, 'Janes', "james@gmail.com", 49, 3.9),
 ];
 
-const useStyles = makeStyles((theme: Theme) =>
-   createStyles({
-      table: {
-         minWidth: 500
-      },
-      root: {
-         '& > *': {
-            margin: theme.spacing(1)
-         },
-         textAlign: 'right'
-      }
-   }))
-
 const Member: FC<any> = (): ReactElement => {
-   const classes = useStyles();
+   const classes = memberStyles();
    return (
       <TableContainer component={Paper}>
          <div className={classes.root}>

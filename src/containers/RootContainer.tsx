@@ -1,12 +1,12 @@
 import React from 'react'
-// import Loadable from 'react-loadable'
+import Loadable from 'react-loadable'
 import { Switch, Route } from 'react-router-dom'
 
-import TabComponent from './Tab'
-// const D3Tree = Loadable({
-//    loader: () => import('./D3Tree'),
-//    loading: () => <div className="loading" />
-// })
+// import TabComponent from './Tab'
+const TabComponent = Loadable({
+   loader: () => import('./Tab'),
+   loading: () => <div className="loading" />
+})
 
 interface StateProps {
 
@@ -23,7 +23,6 @@ class RootContainer extends React.Component<State, Props> {
       return (
          <React.Fragment>
             <Switch>
-               {/* <Route exact path="/tree" component={D3Tree} /> */}
                <Route exact path="/tab" component={TabComponent} />
             </Switch>
          </React.Fragment>

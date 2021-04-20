@@ -1,8 +1,8 @@
 import { FC, ReactElement } from 'react'
 import Tree from 'react-d3-tree'
-import { treeData } from '../_helpers/tree'
-import '../custom-tree.css'
-import { useCenteredTree } from '../components/tree/useCenteredTree'
+import { treeData } from '../_helpers'
+import '../_thems'
+import { useCenteredTree } from '../components/Tree/useCenteredTree'
 
 const containerStyles = {
    width: '97vw',

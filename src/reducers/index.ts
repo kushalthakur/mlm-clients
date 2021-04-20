@@ -3,7 +3,7 @@ import { reducer as reduxFormReducer, FormStateMap } from 'redux-form'
 import { connectRouter, RouterState } from 'connected-react-router'
 import { History } from 'history'
 import { alerts, IAlertState } from './alerts'
-import { authenticate } from './authenticate'
+import { authenticate, IAuthenticateState } from './authenticate'
 
 export * from './authenticate'
 export * from './alerts'
@@ -11,7 +11,7 @@ export * from './alerts'
 export interface ApplicationState {
    router: RouterState,
    form: FormStateMap,
-   authenticate: any,
+   authenticate: IAuthenticateState,
    alerts: IAlertState
 }
 

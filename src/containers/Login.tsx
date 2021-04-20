@@ -1,31 +1,28 @@
 import { FC, ReactElement } from 'react'
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
-import { Avatar, Button, CssBaseline, FormControlLabel, Checkbox, Link, Grid, Typography, Container } from '@material-ui/core'
+import { Link } from 'react-router-dom'
+import { Avatar, Button, CssBaseline, FormControlLabel, Checkbox, Grid, Typography, Container } from '@material-ui/core'
+// import { DangerAlert } from '../components/ui'
 import { PermIdentitySharpIcons } from '../components/ui'
 import { FormInput, ReduxValidation } from '../components/Forms'
 import { loginStyles } from '../_thems'
-import { ApplicationState } from '../reducers'
+import { ApplicationState, IUserState, IAuthenticateState } from '../reducers'
 import { authenticate } from '../actions'
-export interface IUserForm {
-   id: string
-   name: string
-   email: string
-   phone: string
-   password: string
-   founderClubMember: number
-   role: string
-   status: number
-   createdAt?: string
-   updatedAt?: string
-}
+import Alerts from '../components/General/Alerts'
 
-interface Props {
-   handleSubmit: any
-   authenticate: Array<any>
+interface StateProps {
+   authenticateState: IAuthenticateState
+}
+interface DispatchProps {
    login: Function
+}
+interface OwnProps {
+   handleSubmit: any
    history: any
 }
+type Props = StateProps & DispatchProps & OwnProps
+
 
 const Login: FC<Props> = (props: Props): ReactElement => {
    const classes = loginStyles();
@@ -34,6 +31,8 @@ const Login: FC<Props> = (props: Props): ReactElement => {
       <Container component="main" maxWidth="xs">
          <CssBaseline />
          <div className={classes.paper}>
+            <Alerts />
+            {/* {authenticateState && authenticateState.data && <DangerAlert message={authenticateState && authenticateState.data && authenticateState.data.message} />} */}
             <Avatar className={classes.avatar}>
                <PermIdentitySharpIcons />
             </Avatar>
@@ -54,7 +53,7 @@ const Login: FC<Props> = (props: Props): ReactElement => {
                </Button>
                <Grid container>
                   <Grid item xs>
-                     <Link href="#" variant="body2">
+                     <Link to="/forgot/password" style={{ textDecoration: "none" }}>
                         Forgot password?
                      </Link>
                   </Grid>
@@ -67,20 +66,20 @@ const Login: FC<Props> = (props: Props): ReactElement => {
 
 const LoginForm = reduxForm({
    form: 'LoginForm',
-   onSubmit: (data: IUserForm, dispatch, props: Props) => {
+   onSubmit: (data: IUserState, dispatch, props: Props) => {
       props.login({ email: data.email, password: data.password })
       // props.history.push('/tab')
    }
 })(Login)
 
-const mapStateToProps = (state: ApplicationState) => {
+const mapStateToProps = (state: ApplicationState): StateProps => {
    return {
-      authenticate: state.authenticate
+      authenticateState: state.authenticate
    }
 }
 
-const mapDispatchToProps = {
+const mapDispatchToProps: DispatchProps = {
    login: authenticate
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)
+export default connect<StateProps, DispatchProps, OwnProps, ApplicationState>(mapStateToProps, mapDispatchToProps)(LoginForm)

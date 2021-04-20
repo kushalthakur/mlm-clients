@@ -2,14 +2,26 @@ import {
    LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS
 } from '../constants'
 
-interface IAuthenticateState {
-   user: any,
+export interface IUserState {
+   id: string
+   name: string
+   email: string
+   phone: string
+   password: string
+   founderClubMember: number
+   role: string
+   status: number
+   createdAt?: string
+   updatedAt?: string
+}
+export interface IAuthenticateState {
+   data: IUserState,
    loading: boolean,
-   error: any
+   error: null
 }
 
 const initialState: IAuthenticateState = {
-   user: undefined,
+   data: undefined!,
    loading: false,
    error: null
 }
