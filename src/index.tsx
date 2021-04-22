@@ -5,12 +5,18 @@ import Loadable from 'react-loadable'
 import './index.css';
 import store, { history } from './store'
 import reportWebVitals from './reportWebVitals';
+import { currentUser } from './actions';
+import { getToken } from './store/selectors';
 
 // import AppInitialize from './AppInitialize'
 const AppInitialize = Loadable({
   loader: () => import('./AppInitialize'),
   loading: () => <div className="loading" />
 })
+
+if (getToken()) {
+  store.dispatch(currentUser(getToken()))
+}
 
 ReactDOM.render(
   <React.StrictMode>

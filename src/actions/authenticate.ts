@@ -1,5 +1,5 @@
 import {
-   LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE,
+   LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, CURRENT_USER
 } from '../constants'
 
 export const authenticate = (data = {}) => {
@@ -16,5 +16,12 @@ export const authenticate = (data = {}) => {
             data
          }
       }
+   }
+}
+
+export const currentUser = (user: object) => {
+   return {
+      type: CURRENT_USER,
+      user
    }
 }

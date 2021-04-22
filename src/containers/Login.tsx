@@ -1,14 +1,13 @@
 import { FC, ReactElement } from 'react'
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { Avatar, Button, CssBaseline, FormControlLabel, Checkbox, Grid, Typography, Container } from '@material-ui/core'
-// import { DangerAlert } from '../components/ui'
 import { PermIdentitySharpIcons } from '../components/ui'
 import { FormInput, ReduxValidation } from '../components/Forms'
 import { loginStyles } from '../_thems'
 import { ApplicationState, IUserState, IAuthenticateState } from '../reducers'
-import { authenticate } from '../actions'
+import { authenticate, currentUser } from '../actions'
 import Alerts from '../components/General/Alerts'
 
 interface StateProps {
@@ -16,6 +15,7 @@ interface StateProps {
 }
 interface DispatchProps {
    login: Function
+   currentUser: Function
 }
 interface OwnProps {
    handleSubmit: any
@@ -23,16 +23,17 @@ interface OwnProps {
 }
 type Props = StateProps & DispatchProps & OwnProps
 
-
 const Login: FC<Props> = (props: Props): ReactElement => {
    const classes = loginStyles();
-   const { handleSubmit } = props
+   const { handleSubmit, authenticateState } = props
+   if (authenticateState.isAuthenticated) {
+      return <Redirect to="/tab" />
+   }
    return (
       <Container component="main" maxWidth="xs">
          <CssBaseline />
          <div className={classes.paper}>
             <Alerts />
-            {/* {authenticateState && authenticateState.data && <DangerAlert message={authenticateState && authenticateState.data && authenticateState.data.message} />} */}
             <Avatar className={classes.avatar}>
                <PermIdentitySharpIcons />
             </Avatar>
@@ -40,13 +41,11 @@ const Login: FC<Props> = (props: Props): ReactElement => {
                Sign In
             </Typography>
             <form className={classes.form} noValidate onSubmit={handleSubmit}>
-               <Field component={FormInput} variant="outlined" margin="normal" fullWidth label="Email Address" name="email"
-                  isEditable={true}
-                  validate={[ReduxValidation.required, ReduxValidation.email]}
+               <Field component={FormInput} variant="outlined" margin="normal" fullWidth label="Email Address" name="email" type="email"
+                  isEditable={true} validate={[ReduxValidation.required, ReduxValidation.email]}
                />
                <Field component={FormInput} variant="outlined" margin="normal" fullWidth label="Password" name="password" type="password"
-                  isEditable={true}
-                  validate={[ReduxValidation.required, ReduxValidation.minLength]} />
+                  isEditable={true} validate={[ReduxValidation.required, ReduxValidation.minLength]} />
                <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
                <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
                   Sign In
@@ -66,9 +65,18 @@ const Login: FC<Props> = (props: Props): ReactElement => {
 
 const LoginForm = reduxForm({
    form: 'LoginForm',
-   onSubmit: (data: IUserState, dispatch, props: Props) => {
+   onSubmit: (data: IUserState, dispatch, props: any) => {
       props.login({ email: data.email, password: data.password })
-      // props.history.push('/tab')
+         .then((result: any) => {
+            if (result && result.payload && result.payload.data) {
+               localStorage.setItem('jwtToken', result.payload.token)
+               localStorage.setItem('currentUser', JSON.stringify(result.payload.data))
+               props.currentUser(result.payload.data.token)
+               props.history.push('/tab')
+            }
+         }).catch((err: any) => {
+            console.log(err)
+         })
    }
 })(Login)
 
@@ -79,7 +87,8 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 }
 
 const mapDispatchToProps: DispatchProps = {
-   login: authenticate
+   login: authenticate,
+   currentUser: currentUser
 }
 
 export default connect<StateProps, DispatchProps, OwnProps, ApplicationState>(mapStateToProps, mapDispatchToProps)(LoginForm)

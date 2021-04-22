@@ -28,7 +28,7 @@ instance.interceptors.response.use((response: AxiosResponse) => {
    response && response.data && store.dispatch(alerts.error(response.data.message))
    return response.data
 }, error => {
-   if (error.response.status === 400 || error.response.status === 404 || error.response.status === 422 || error.response.status === 500) {
+   if (error && error.response && (error.response.status === 400 || error.response.status === 404 || error.response.status === 422 || error.response.status === 500)) {
       error && error.response && error.response.data && store.dispatch(alerts.error(error.response.data.message))
       return error.response.data
    } else if (error.response.status === 403 || error.response.status === 401) {

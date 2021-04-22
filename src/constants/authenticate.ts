@@ -5,3 +5,5 @@ export const LOGIN_REQUEST: string = 'LOGIN_REQUEST',
 export const LOGOUT_REQUEST: string = 'LOGOUT_REQUEST',
    LOGOUT_SUCCESS: string = 'LOGOUT_SUCCESS',
    LOGOUT_FAILURE: string = 'LOGOUT_FAILURE';
+
+export const CURRENT_USER: string = 'CURRENT_USER'
