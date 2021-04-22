@@ -1,7 +1,10 @@
-import React from 'react';
-import { makeStyles, Theme, AppBar, Tabs, Tab, Typography, Box } from '@material-ui/core';
+import React, { FC, ReactElement, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { makeStyles, Theme, AppBar, Tabs, Tab, Typography, Box, Button } from '@material-ui/core';
 import D3Tree from './D3Tree'
 import Member from './member/Member'
+import { ApplicationState, IMemberState } from '../reducers';
+import { getMembers } from '../actions';
 
 interface TabPanelProps {
    children?: React.ReactNode;
@@ -42,14 +45,28 @@ const useStyles = makeStyles((theme: Theme) => ({
    },
 }));
 
-export default function SimpleTabs() {
+interface MemberState {
+   memberState: IMemberState
+}
+interface DispatchProps {
+   getMembers: Function
+}
+interface OwnProps {
+
+}
+
+type Props = DispatchProps & MemberState & OwnProps
+
+const SimpleTabs: FC<any> = (props: Props): ReactElement => {
    const classes = useStyles();
    const [value, setValue] = React.useState(0);
-
+   useEffect(() => {
+      props.getMembers()
+   }, [])
    const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
       setValue(newValue);
    };
-
+   console.log('memberState', props.memberState)
    return (
       <div className={classes.root}>
          <AppBar position="static">
@@ -66,8 +83,21 @@ export default function SimpleTabs() {
             <Member />
          </TabPanel>
          <TabPanel value={value} index={2}>
-            Item Three
+            <Button type="submit" variant="contained" color="secondary">
+               Logout
+            </Button>
          </TabPanel>
       </div>
    );
 }
+
+const mapStateToProps = (state: ApplicationState): any => {
+   return {
+      memberState: state.members
+   }
+}
+const mapDispatchToProps: DispatchProps = {
+   getMembers: getMembers
+}
+
+export default connect<MemberState, DispatchProps, OwnProps, ApplicationState>(mapStateToProps, mapDispatchToProps)(SimpleTabs)

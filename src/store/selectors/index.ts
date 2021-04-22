@@ -1,7 +1,7 @@
 import { config } from '../../config'
 
 export function getToken() {
-   const jwtToken = localStorage.getItem("jwtToken")
+   const jwtToken: any = localStorage.getItem("jwtToken")
    if (jwtToken) {
       return jwtToken
    } else {
@@ -9,7 +9,7 @@ export function getToken() {
    }
 }
 export function getUser() {
-   const currentUser = localStorage.getItem("currentUser")
+   const currentUser: any = localStorage.getItem("currentUser")
    if (currentUser) {
       return currentUser
    } else {
