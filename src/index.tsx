@@ -24,9 +24,6 @@ ReactDOM.render(
       <AppInitialize history={history} />
     </Provider>
   </React.StrictMode>,
-  // <Provider store={store}>
-  //   <AppInitialize history={history} />
-  // </Provider>,
   document.getElementById('root')
 );
 // If you want to start measuring performance in your app, pass a function
