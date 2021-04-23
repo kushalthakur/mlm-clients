@@ -20,7 +20,7 @@ const Member: FC<any> = (): ReactElement => {
    return (
       <TableContainer component={Paper}>
          <div className={classes.root}>
-            <Button variant="outlined" className="pull-right">Default</Button>
+            <Button variant="outlined" color="secondary">Default</Button>
             <Button variant="outlined" color="primary">Add Member</Button>
          </div>
          <Table className={classes.table} aria-label="customized table">

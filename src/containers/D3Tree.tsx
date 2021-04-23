@@ -1,6 +1,5 @@
 import { FC, ReactElement } from 'react'
 import Tree from 'react-d3-tree'
-import { treeData } from '../_helpers'
 import '../_thems'
 import { useCenteredTree } from '../components/Tree/useCenteredTree'
 
@@ -9,12 +8,18 @@ const containerStyles = {
    height: '88vh',
 }
 
-const D3Tree: FC<any> = (): ReactElement => {
+interface Props {
+   tree: Array<any>
+}
+
+const D3Tree: FC<any> = (props: Props): ReactElement => {
    const [translate, containerRef] = useCenteredTree();
+   const { tree } = props
+   console.log('tree ', tree)
    return (
       <div style={containerStyles} ref={containerRef}>
          <Tree
-            data={treeData}
+            data={tree}
             // rootNodeClassName="node__root"
             // branchNodeClassName="node__branch"
             // leafNodeClassName="node__leaf"

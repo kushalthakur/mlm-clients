@@ -19,7 +19,7 @@ export const authenticate = (data = {}) => {
    }
 }
 
-export const currentUser = (user: object) => {
+export const currentUser = (user: string) => {
    return {
       type: CURRENT_USER,
       user
