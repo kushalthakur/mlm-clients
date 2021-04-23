@@ -9,6 +9,7 @@ import { loginStyles } from '../_thems'
 import { ApplicationState, IUserState, IAuthenticateState } from '../reducers'
 import { authenticate, currentUser } from '../actions'
 import Alerts from '../components/General/Alerts'
+import { storageUser } from '../store/selectors'
 
 interface StateProps {
    authenticateState: IAuthenticateState
@@ -69,10 +70,9 @@ const LoginForm = reduxForm({
       props.login({ email: data.email, password: data.password })
          .then((result: any) => {
             if (result && result.payload && result.payload.data) {
-               localStorage.setItem('jwtToken', result.payload.token)
-               localStorage.setItem('currentUser', JSON.stringify(result.payload.data))
-               props.currentUser(result.payload.data.token)
                props.history.push('/tab')
+               storageUser(result)
+               props.currentUser(result.payload.token)
             }
          }).catch((err: any) => {
             console.log(err)

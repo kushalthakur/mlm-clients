@@ -1,6 +1,6 @@
 import React, { FC, ReactElement, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { makeStyles, Theme, AppBar, Tabs, Tab, Typography, Box, Button } from '@material-ui/core';
+import { makeStyles, Theme, Tabs, Tab, Typography, Box, Paper } from '@material-ui/core';
 import D3Tree from './D3Tree'
 import Member from './member/Member'
 import { ApplicationState, IMemberState } from '../reducers';
@@ -31,18 +31,14 @@ function TabPanel(props: TabPanelProps) {
    );
 }
 
-function a11yProps(index: any) {
-   return {
-      id: `simple-tab-${index}`,
-      'aria-controls': `simple-tabpanel-${index}`,
-   };
-}
-
 const useStyles = makeStyles((theme: Theme) => ({
    root: {
       flexGrow: 1,
       backgroundColor: theme.palette.background.paper,
    },
+   indicator: {
+      maxWidth: 10
+   }
 }));
 
 interface MemberState {
@@ -60,32 +56,27 @@ type Props = DispatchProps & MemberState & OwnProps
 const SimpleTabs: FC<any> = (props: Props): ReactElement => {
    const classes = useStyles();
    const [value, setValue] = React.useState(0);
+   const { getMembers, memberState } = props;
    useEffect(() => {
-      props.getMembers()
-   }, [])
+      getMembers()
+   }, [getMembers])
    const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
       setValue(newValue);
    };
-   console.log('memberState', props.memberState)
+   const tree = memberState && memberState.data && memberState.data.data !== undefined ? memberState.data.data : [{}]
    return (
       <div className={classes.root}>
-         <AppBar position="static">
-            <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-               <Tab label="Tree" {...a11yProps(0)} />
-               <Tab label="Member" {...a11yProps(1)} />
-               <Tab label="Item" {...a11yProps(2)} />
+         <Paper square>
+            <Tabs value={value} indicatorColor="secondary" textColor="primary" onChange={handleChange} centered>
+               <Tab label="Tree" />
+               <Tab label="Member" />
             </Tabs>
-         </AppBar>
+         </Paper>
          <TabPanel value={value} index={0}>
-            <D3Tree />
+            <D3Tree tree={tree} />
          </TabPanel>
          <TabPanel value={value} index={1}>
             <Member />
-         </TabPanel>
-         <TabPanel value={value} index={2}>
-            <Button type="submit" variant="contained" color="secondary">
-               Logout
-            </Button>
          </TabPanel>
       </div>
    );
