@@ -11,7 +11,7 @@ export const getMembers = () => {
       ],
       payload: {
          request: {
-            url: "/members",
+            url: "/tree",
             method: 'GET'
          }
       }

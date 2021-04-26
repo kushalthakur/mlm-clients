@@ -1,58 +1,58 @@
 import { FC, ReactElement } from 'react'
-import { Table, TableBody, TableContainer, TableHead, TableRow, Paper, Button } from '@material-ui/core';
-import { EditIcons } from '../../components/ui'
-import { memberStyles, StyledTableCell, StyledTableRow } from '../../_thems'
+import { connect } from 'react-redux';
+import { Table, TableContainer, Paper, Button } from '@material-ui/core';
+import { memberStyles } from '../../_thems'
+import TableHeader from '../../components/Table/TableHeader'
+import TableBody from '../../components/Table/TableBody'
+import { hideModal, showModal } from '../../actions/modal';
+import { ModalType } from '../../components/Modals/ModalManager';
 
-function createData(name: number, calories: string, fat: string, carbs: number, protein: number) {
-   return { name, calories, fat, carbs, protein };
+interface DispatchProps {
+   showModal: Function
+   hideModal: Function
 }
-const rows = [
-   createData(383262435, 'Thakur Kushal', "kumarthakur@gmail.com", 24, 4.0),
-   createData(321074060, 'Ashwin', "ashwin@gmail.com", 37, 4.3),
-   createData(927018000, 'Umesh', "umesh@gmail.com", 24, 6.0),
-   createData(781134836, 'Stones', "stones@gmail.com", 67, 4.3),
-   createData(999549805, 'Haus', "haus@gmail.com", 49, 3.9),
-   createData(276446902, 'Janes', "james@gmail.com", 49, 3.9),
-];
+interface StateProps {
+   memberState: any
+}
 
-const Member: FC<any> = (): ReactElement => {
+type Props = DispatchProps
+
+const Member: FC<Props> = (props: Props): ReactElement => {
    const classes = memberStyles();
+   const showModal = () => {
+      props.showModal(ModalType.MemberModal, {
+         onSave: (result: any) => {
+            console.log('onSave')
+            props.hideModal()
+         },
+         onClose: () => {
+            props.hideModal()
+         }
+      })
+   }
    return (
       <TableContainer component={Paper}>
          <div className={classes.root}>
             <Button variant="outlined" color="secondary">Default</Button>
-            <Button variant="outlined" color="primary">Add Member</Button>
+            <Button variant="outlined" color="primary" onClick={(e) => showModal()}>Add Member</Button>
          </div>
-         <Table className={classes.table} aria-label="customized table">
-            <TableHead>
-               <TableRow>
-                  <StyledTableCell>Sponsor Id</StyledTableCell>
-                  <StyledTableCell>Member Id</StyledTableCell>
-                  <StyledTableCell>Name</StyledTableCell>
-                  <StyledTableCell>Email Address</StyledTableCell>
-                  <StyledTableCell>Phone</StyledTableCell>
-                  <StyledTableCell>City</StyledTableCell>
-                  <StyledTableCell>Status</StyledTableCell>
-                  <StyledTableCell>Action (s)</StyledTableCell>
-               </TableRow>
-            </TableHead>
-            <TableBody>
-               {rows.map((row) => (
-                  <StyledTableRow key={row.name}>
-                     <StyledTableCell component="th" scope="row">{row.name}</StyledTableCell>
-                     <StyledTableCell>{row.calories}</StyledTableCell>
-                     <StyledTableCell>{row.calories}</StyledTableCell>
-                     <StyledTableCell>{row.fat}</StyledTableCell>
-                     <StyledTableCell>{row.carbs}</StyledTableCell>
-                     <StyledTableCell>{row.protein}</StyledTableCell>
-                     <StyledTableCell><Button color="secondary">Active</Button></StyledTableCell>
-                     <StyledTableCell><EditIcons fontSize="small" color="primary" /></StyledTableCell>
-                  </StyledTableRow>
-               ))}
-            </TableBody>
+         <Table className={classes.table} aria-label="customized table" size="small">
+            <TableHeader data={[]} />
+            <TableBody data={[]} />
          </Table>
       </TableContainer>
    );
 }
 
-export default Member
+const mapStateToProps = (state: any): StateProps => {
+   return {
+      memberState: {}
+   }
+}
+
+const mapDispatchToProps: DispatchProps = {
+   showModal: showModal,
+   hideModal: hideModal
+}
+
+export default connect<StateProps, DispatchProps>(mapStateToProps, mapDispatchToProps)(Member)
