@@ -4,17 +4,20 @@ import { connectRouter, RouterState } from 'connected-react-router'
 import { History } from 'history'
 import { alerts, IAlertState } from './alerts'
 import { authenticate, IAuthenticateState } from './authenticate'
+import { modal, IModalState } from './modal'
 import { members, IMemberState } from './member'
 
 export * from './alerts'
 export * from './authenticate'
+export * from './modal'
 export * from './member'
 
 export interface ApplicationState {
    router: RouterState,
    form: FormStateMap,
-   authenticate: IAuthenticateState,
    alerts: IAlertState,
+   authenticate: IAuthenticateState,
+   modalState: IModalState,
    members: IMemberState
 }
 
@@ -23,5 +26,6 @@ export const rootReducer = (history: History) => combineReducers<ApplicationStat
    form: reduxFormReducer,
    alerts,
    authenticate: authenticate,
+   modalState: modal,
    members: members
 })

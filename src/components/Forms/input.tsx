@@ -19,6 +19,7 @@ export const FormInput = (props: any) => {
                   fullWidth
                   disabled={disabled}
                   // autoComplete="off"
+                  size="small"
                   helperText={meta.touched && meta.error && meta.error}
                   error={error}
                />

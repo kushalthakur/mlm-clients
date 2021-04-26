@@ -15,7 +15,7 @@ interface Props {
 const D3Tree: FC<any> = (props: Props): ReactElement => {
    const [translate, containerRef] = useCenteredTree();
    const { tree } = props
-   console.log('tree ', tree)
+   // console.log('tree ', tree)
    return (
       <div style={containerStyles} ref={containerRef}>
          <Tree
