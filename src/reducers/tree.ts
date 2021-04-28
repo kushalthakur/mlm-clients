@@ -1,27 +1,27 @@
 import {
-   GET_MEMBER_REQUEST, GET_MEMBER_SUCCESS, GET_MEMBER_FAILURE
+   GET_TREE_REQUEST, GET_TREE_SUCCESS, GET_TREE_FAILURE
 } from '../constants'
 
-export interface IMemberState {
+export interface ITreeState {
    data: any
    loading: boolean
    error: null
 }
 
-const initialState: IMemberState = {
+const initialState: ITreeState = {
    data: undefined!,
    loading: false,
    error: null
 }
 
 
-export const members = (state = initialState, action: any) => {
+export const tree = (state = initialState, action: any) => {
    switch (action.type) {
-      case GET_MEMBER_REQUEST:
+      case GET_TREE_REQUEST:
          return { ...state, loading: true, error: null }
-      case GET_MEMBER_SUCCESS:
+      case GET_TREE_SUCCESS:
          return { ...state, loading: false, data: action.payload, error: null }
-      case GET_MEMBER_FAILURE:
+      case GET_TREE_FAILURE:
          return { ...state, loading: false, error: action.payload }
       default:
          return state

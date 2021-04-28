@@ -1,13 +1,13 @@
 import {
-   GET_MEMBER_REQUEST, GET_MEMBER_SUCCESS, GET_MEMBER_FAILURE
+   GET_TREE_REQUEST, GET_TREE_SUCCESS, GET_TREE_FAILURE
 } from '../constants'
 
-export const getMembers = () => {
+export const getTree = () => {
    return {
       types: [
-         GET_MEMBER_REQUEST,
-         GET_MEMBER_SUCCESS,
-         GET_MEMBER_FAILURE
+         GET_TREE_REQUEST,
+         GET_TREE_SUCCESS,
+         GET_TREE_FAILURE
       ],
       payload: {
          request: {

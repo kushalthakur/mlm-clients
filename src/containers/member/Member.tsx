@@ -1,4 +1,4 @@
-import { FC, ReactElement } from 'react'
+import { FC, ReactElement, useEffect } from 'react'
 import { connect } from 'react-redux';
 import { Table, TableContainer, Paper, Button } from '@material-ui/core';
 import { memberStyles } from '../../_thems'
@@ -6,16 +6,25 @@ import TableHeader from '../../components/Table/TableHeader'
 import TableBody from '../../components/Table/TableBody'
 import { hideModal, showModal } from '../../actions/modal';
 import { ModalType } from '../../components/Modals/ModalManager';
+import { masterMembers } from '../../store/master.store'
+import { IActionCreator } from '../../actions';
+import { ApplicationState } from '../../reducers';
+import { getMasterState } from '../../store/master/master.selector';
 
 interface DispatchProps {
    showModal: Function
    hideModal: Function
+   requestMembers: IActionCreator
 }
 interface StateProps {
    memberState: any
 }
 
-type Props = DispatchProps
+interface OwnProps {
+
+}
+
+type Props = DispatchProps & StateProps & OwnProps
 
 const Member: FC<Props> = (props: Props): ReactElement => {
    const classes = memberStyles();
@@ -30,6 +39,11 @@ const Member: FC<Props> = (props: Props): ReactElement => {
          }
       })
    }
+   const { requestMembers, memberState } = props
+   useEffect(() => {
+      requestMembers()
+   }, [requestMembers])
+   console.log('member ', memberState)
    return (
       <TableContainer component={Paper}>
          <div className={classes.root}>
@@ -38,21 +52,23 @@ const Member: FC<Props> = (props: Props): ReactElement => {
          </div>
          <Table className={classes.table} aria-label="customized table" size="small">
             <TableHeader data={[]} />
-            <TableBody data={[]} />
+            <TableBody data={memberState && memberState.data} />
          </Table>
       </TableContainer>
    );
 }
 
-const mapStateToProps = (state: any): StateProps => {
+const mapStateToProps = (state: ApplicationState): StateProps => {
+   const memberState = getMasterState(state.members.manageMembers, undefined)
    return {
-      memberState: {}
+      memberState: memberState
    }
 }
 
 const mapDispatchToProps: DispatchProps = {
    showModal: showModal,
-   hideModal: hideModal
+   hideModal: hideModal,
+   requestMembers: masterMembers.requestMaster
 }
 
-export default connect<StateProps, DispatchProps>(mapStateToProps, mapDispatchToProps)(Member)
+export default connect<StateProps, DispatchProps, OwnProps, ApplicationState>(mapStateToProps, mapDispatchToProps)(Member)

@@ -35,6 +35,6 @@ export function removeToken() {
    sessionStorage.removeItem("currentUser")
 }
 
-export function getBaseUrl() {
-   return config.baseUrl
+export const baseURL = () => {
+   return config.baseURL
 }
