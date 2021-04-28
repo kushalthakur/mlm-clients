@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { makeStyles, Theme, Tabs, Tab, Typography, Box, Paper } from '@material-ui/core';
 import D3Tree from './D3Tree'
 import Member from './member/Member'
-import { ApplicationState, IMemberState } from '../reducers';
-import { getMembers } from '../actions';
+import { ApplicationState, ITreeState } from '../reducers';
+import { getTree } from '../actions';
 
 interface TabPanelProps {
    children?: React.ReactNode;
@@ -41,29 +41,29 @@ const useStyles = makeStyles((theme: Theme) => ({
    }
 }));
 
-interface MemberState {
-   memberState: IMemberState
+interface treeState {
+   treeState: ITreeState
 }
 interface DispatchProps {
-   getMembers: Function
+   getTree: Function
 }
 interface OwnProps {
 
 }
 
-type Props = DispatchProps & MemberState & OwnProps
+type Props = DispatchProps & treeState & OwnProps
 
 const SimpleTabs: FC<any> = (props: Props): ReactElement => {
    const classes = useStyles();
    const [value, setValue] = React.useState(0);
-   const { getMembers, memberState } = props;
+   const { getTree, treeState } = props;
    useEffect(() => {
-      getMembers()
-   }, [getMembers])
+      getTree()
+   }, [getTree])
    const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
       setValue(newValue);
    };
-   const tree = memberState && memberState.data && memberState.data.data !== undefined ? memberState.data.data : [{}]
+   const tree = treeState && treeState.data && treeState.data.data !== undefined ? treeState.data.data : [{}]
    return (
       <div className={classes.root}>
          <Paper square>
@@ -82,13 +82,13 @@ const SimpleTabs: FC<any> = (props: Props): ReactElement => {
    );
 }
 
-const mapStateToProps = (state: ApplicationState): any => {
+const mapStateToProps = (state: ApplicationState): treeState => {
    return {
-      memberState: state.members
+      treeState: state.tree
    }
 }
 const mapDispatchToProps: DispatchProps = {
-   getMembers: getMembers
+   getTree: getTree
 }
 
-export default connect<MemberState, DispatchProps, OwnProps, ApplicationState>(mapStateToProps, mapDispatchToProps)(SimpleTabs)
+export default connect<treeState, DispatchProps, OwnProps, ApplicationState>(mapStateToProps, mapDispatchToProps)(SimpleTabs)

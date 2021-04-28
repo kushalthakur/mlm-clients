@@ -2,8 +2,10 @@ import { Store, createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import axiosMiddleware from 'redux-axios-middleware'
+import createSagaMiddleware from 'redux-saga'
 import { History, createBrowserHistory } from 'history'
 import { rootReducer } from '../reducers'
+import rootSaga from './saga'
 import { alerts } from '../actions'
 import { config } from '../config'
 import { getToken, removeToken } from './selectors'
@@ -41,13 +43,16 @@ instance.interceptors.response.use((response: AxiosResponse) => {
 
 const store: Store = configureStore(history)
 function configureStore(history: History): Store {
+   const sagaMiddleware = createSagaMiddleware()
    const store: Store = createStore(
       rootReducer(history),
       applyMiddleware(
          axiosMiddleware(instance),
-         thunk
+         thunk,
+         sagaMiddleware
       )
    )
+   sagaMiddleware.run(rootSaga)
    return store
 }
 

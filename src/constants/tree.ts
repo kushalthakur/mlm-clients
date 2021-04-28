@@ -1,0 +1,3 @@
+export const GET_TREE_REQUEST: string = 'GET_TREE_REQUEST',
+   GET_TREE_SUCCESS: string = 'GET_TREE_SUCCESS',
+   GET_TREE_FAILURE: string = 'GET_TREE_FAILURE';

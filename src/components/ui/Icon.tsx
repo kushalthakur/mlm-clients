@@ -5,6 +5,7 @@ import PersonIcon from '@material-ui/icons/Person'
 import PermIdentitySharpIcon from '@material-ui/icons/PermIdentitySharp'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import SearchIcon from '@material-ui/icons/Search';
+import CloseIcon from '@material-ui/icons/Close';
 
 export const EditIcons = (props: any) => {
    return (
@@ -45,6 +46,13 @@ export const ExitToAppIcons = (props: any) => {
    return (
       <React.Fragment>
          <ExitToAppIcon {...props} style={{ cursor: "pointer", margin: "20px" }} />
+      </React.Fragment>
+   )
+}
+export const CloseIcons = (props: any) => {
+   return (
+      <React.Fragment>
+         <CloseIcon {...props} />
       </React.Fragment>
    )
 }

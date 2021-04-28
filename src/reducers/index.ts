@@ -5,12 +5,14 @@ import { History } from 'history'
 import { alerts, IAlertState } from './alerts'
 import { authenticate, IAuthenticateState } from './authenticate'
 import { modal, IModalState } from './modal'
-import { members, IMemberState } from './member'
+import { tree, ITreeState } from './tree'
+import { IMasterApiReducer } from '../store/master'
+import { masterMembers } from '../store/master.store'
 
 export * from './alerts'
 export * from './authenticate'
 export * from './modal'
-export * from './member'
+export * from './tree'
 
 export interface ApplicationState {
    router: RouterState,
@@ -18,7 +20,10 @@ export interface ApplicationState {
    alerts: IAlertState,
    authenticate: IAuthenticateState,
    modalState: IModalState,
-   members: IMemberState
+   tree: ITreeState,
+   members: ({
+      manageMembers: IMasterApiReducer
+   })
 }
 
 export const rootReducer = (history: History) => combineReducers<ApplicationState>({
@@ -27,5 +32,8 @@ export const rootReducer = (history: History) => combineReducers<ApplicationStat
    alerts,
    authenticate: authenticate,
    modalState: modal,
-   members: members
+   tree: tree,
+   members: combineReducers({
+      manageMembers: masterMembers.reducers
+   })
 })
