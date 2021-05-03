@@ -10,12 +10,13 @@ const TableHeader: FC<Props> = (props: Props): ReactElement => {
    return (
       <TableHead>
          <TableRow>
-            <StyledTableCell>Sponsor Id</StyledTableCell>
-            <StyledTableCell>Member Id</StyledTableCell>
-            <StyledTableCell>Name</StyledTableCell>
+            <StyledTableCell>First Name</StyledTableCell>
+            <StyledTableCell>Last Name</StyledTableCell>
             <StyledTableCell>Email Address</StyledTableCell>
+            <StyledTableCell>Sponsor Id</StyledTableCell>
             <StyledTableCell>Phone</StyledTableCell>
-            <StyledTableCell>City</StyledTableCell>
+            <StyledTableCell>Level</StyledTableCell>
+            <StyledTableCell>Date</StyledTableCell>
             <StyledTableCell>Status</StyledTableCell>
             <StyledTableCell>Action (s)</StyledTableCell>
          </TableRow>
