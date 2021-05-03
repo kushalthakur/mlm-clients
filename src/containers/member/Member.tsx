@@ -43,11 +43,9 @@ const Member: FC<Props> = (props: Props): ReactElement => {
    useEffect(() => {
       requestMembers()
    }, [requestMembers])
-   console.log('member ', memberState)
    return (
       <TableContainer component={Paper}>
          <div className={classes.root}>
-            <Button variant="outlined" color="secondary">Default</Button>
             <Button variant="outlined" color="primary" onClick={(e) => showModal()}>Add Member</Button>
          </div>
          <Table className={classes.table} aria-label="customized table" size="small">

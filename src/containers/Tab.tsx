@@ -1,7 +1,7 @@
 import React, { FC, ReactElement, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { makeStyles, Theme, Tabs, Tab, Typography, Box, Paper } from '@material-ui/core';
-import D3Tree from './D3Tree'
+import D3Tree from './tree/D3Tree'
 import Member from './member/Member'
 import { ApplicationState, ITreeState } from '../reducers';
 import { getTree } from '../actions';
