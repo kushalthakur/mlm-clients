@@ -1,5 +1,5 @@
 import React from 'react'
-import { TextField, Checkbox, FormControlLabel } from '@material-ui/core';
+import { TextField, Checkbox, FormControlLabel } from '@material-ui/core'
 interface Props {
    input: any
    label: string

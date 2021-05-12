@@ -28,7 +28,7 @@ const Login: FC<Props> = (props: Props): ReactElement => {
    const classes = loginStyles();
    const { handleSubmit, authenticateState } = props
    if (authenticateState.isAuthenticated) {
-      return <Redirect to="/tab" />
+      return <Redirect to="/tree" />
    }
    return (
       <Container component="main" maxWidth="xs">
@@ -42,7 +42,7 @@ const Login: FC<Props> = (props: Props): ReactElement => {
                Sign In
             </Typography>
             <form className={classes.form} noValidate onSubmit={handleSubmit}>
-               <Field component={FormInput} variant="outlined" margin="normal" fullWidth label="Email Address" name="email" type="email"
+               <Field component={FormInput} variant="outlined" margin="normal" fullWidth label="Email Address" name="email" type="email" autoFocus
                   isEditable={true} validate={[ReduxValidation.required, ReduxValidation.email]}
                />
                <Field component={FormInput} variant="outlined" margin="normal" fullWidth label="Password" name="password" type="password"
@@ -70,7 +70,7 @@ const LoginForm = reduxForm({
       props.login({ email: data.email, password: data.password })
          .then((result: any) => {
             if (result && result.payload && result.payload.data) {
-               props.history.push('/tab')
+               props.history.push('/tree')
                storageUser(result)
                props.currentUser(result.payload.token)
             }

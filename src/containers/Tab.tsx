@@ -1,3 +1,10 @@
+
+/**
+ *
+ * This component not used anywhere
+ *
+*/
+
 import React, { FC, ReactElement, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { makeStyles, Theme, Tabs, Tab, Typography, Box, Paper } from '@material-ui/core';
@@ -56,14 +63,14 @@ type Props = DispatchProps & treeState & OwnProps
 const SimpleTabs: FC<any> = (props: Props): ReactElement => {
    const classes = useStyles();
    const [value, setValue] = React.useState(0);
-   const { getTree, treeState } = props;
+   const { getTree } = props;
    useEffect(() => {
       getTree()
    }, [getTree])
    const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
       setValue(newValue);
    };
-   const tree = treeState && treeState.data && treeState.data.data !== undefined ? treeState.data.data : [{}]
+   // const tree = treeState && treeState.data && treeState.data.data !== undefined ? treeState.data.data : [{}]
    return (
       <div className={classes.root}>
          <Paper square>
@@ -73,7 +80,7 @@ const SimpleTabs: FC<any> = (props: Props): ReactElement => {
             </Tabs>
          </Paper>
          <TabPanel value={value} index={0}>
-            <D3Tree tree={tree} />
+            {/* <D3Tree tree={tree} /> */}
          </TabPanel>
          <TabPanel value={value} index={1}>
             <Member />

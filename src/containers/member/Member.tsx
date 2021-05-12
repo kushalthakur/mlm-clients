@@ -1,9 +1,9 @@
 import { FC, ReactElement, useEffect } from 'react'
 import { connect } from 'react-redux';
-import { Table, TableContainer, Paper, Button } from '@material-ui/core';
+import { TableContainer, Paper, Button } from '@material-ui/core'
 import { memberStyles } from '../../_thems'
-import TableHeader from '../../components/Table/TableHeader'
-import TableBody from '../../components/Table/TableBody'
+import SmartTable from '../../components/Table/SmartTable';
+import { memberHeader } from '../../components/TableHeader'
 import { hideModal, showModal } from '../../actions/modal';
 import { ModalType } from '../../components/Modals/ModalManager';
 import { masterMembers } from '../../store/master.store'
@@ -15,6 +15,7 @@ interface DispatchProps {
    showModal: Function
    hideModal: Function
    requestMembers: IActionCreator
+   createMaster: IActionCreator
 }
 interface StateProps {
    memberState: any
@@ -31,8 +32,8 @@ const Member: FC<Props> = (props: Props): ReactElement => {
    const showModal = () => {
       props.showModal(ModalType.MemberModal, {
          onSave: (result: any) => {
-            console.log('onSave')
-            props.hideModal()
+            props.createMaster({ body: result })
+            // props.hideModal()
          },
          onClose: () => {
             props.hideModal()
@@ -48,10 +49,10 @@ const Member: FC<Props> = (props: Props): ReactElement => {
          <div className={classes.root}>
             <Button variant="outlined" color="primary" onClick={(e) => showModal()}>Add Member</Button>
          </div>
-         <Table className={classes.table} aria-label="customized table" size="small">
-            <TableHeader data={[]} />
-            <TableBody data={memberState && memberState.data} />
-         </Table>
+         <SmartTable
+            data={memberState.data}
+            headers={memberHeader}
+         />
       </TableContainer>
    );
 }
@@ -66,7 +67,8 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 const mapDispatchToProps: DispatchProps = {
    showModal: showModal,
    hideModal: hideModal,
-   requestMembers: masterMembers.requestMaster
+   requestMembers: masterMembers.requestMaster,
+   createMaster: masterMembers.createMaster
 }
 
 export default connect<StateProps, DispatchProps, OwnProps, ApplicationState>(mapStateToProps, mapDispatchToProps)(Member)

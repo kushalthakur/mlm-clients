@@ -1,9 +1,18 @@
 import { removeToken } from '../store/selectors'
+import { alerts } from '../actions'
+import store from '../store'
 
 export const fetchGetRequest = (url: string, token: string, body: any, method: string, headers?: Headers) => {
    return fetch(url, {
       method: method,
       headers: checkHeaders(headers!, token, body)
+   }).then(handleResponse)
+}
+export const fetchPostRequest = (url: string, token: string, body: any, method: string, headers?: Headers) => {
+   return fetch(url, {
+      method: method,
+      headers: checkHeaders(headers!, token, body),
+      body: JSON.stringify(body)
    }).then(handleResponse)
 }
 
@@ -34,6 +43,7 @@ function handleResponse(response: Response) {
          const contentType = response.headers.get('content-type');
          if (contentType && contentType.indexOf('application/json') !== -1) {
             response.json().then(json => {
+               json && json.message && store.dispatch(alerts.error(json.message))
                resolve(json);
             });
          } else {
@@ -45,6 +55,7 @@ function handleResponse(response: Response) {
          const contentType = response.headers.get('content-type');
          if (contentType && contentType.indexOf('application/json') !== -1) {
             response.json().then(json => {
+               json && json.message && store.dispatch(alerts.error(json.message))
                resolve(json);
             });
          } else {
@@ -52,10 +63,22 @@ function handleResponse(response: Response) {
             reject(err);
          }
       }
-      if ((response.status >= 200 && response.status < 300) || response.status === 400) {
+      if (response.status >= 200 && response.status < 300) {
          const contentType = response.headers.get('content-type');
          if (contentType && contentType.indexOf('application/json') !== -1) {
             response.json().then(json => {
+               resolve(json);
+            });
+         } else {
+            let err = new Error("Error while parsing result");
+            reject(err);
+         }
+      }
+      if (response.status === 400) {
+         const contentType = response.headers.get('content-type');
+         if (contentType && contentType.indexOf('application/json') !== -1) {
+            response.json().then(json => {
+               json && json.message && store.dispatch(alerts.error(json.message))
                resolve(json);
             });
          } else {
