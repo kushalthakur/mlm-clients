@@ -135,7 +135,7 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
    }
 }
 export default connect(mapStateToProps, {
-   requestList: masterMembers.listMaster,
+   requestList: masterMembers.listMaster
 })(reduxForm({
    form: "AddMemberForm",
    onSubmit: (data: any, dispatch: any, props: any) => {

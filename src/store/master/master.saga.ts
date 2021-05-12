@@ -19,25 +19,25 @@ export function* requestMasterOperation(action: IMasterApiAction): IterableItera
          response = yield (call as any)(fetchGetRequest, url, token, meta!.keys.method, params.headers)
       }
       if (type === MASTER_API_FETCH.REQUEST) {
-         yield put(masterApiFetch.success(meta!.uniqueKey, meta!.keys, payload.params, response.data || response, response.message || 'Fetched Successfully'))
+         yield put(masterApiFetch.success(meta!.uniqueKey, meta!.keys, payload.params, response.data || response, response.error, response.message || 'Fetched Successfully'))
       } else if (type === MASTER_API_CREATE.REQUEST) {
-         yield put(masterApiCreate.success(meta!.uniqueKey, meta!.keys, payload.params, response.data || response, response.message || 'Created Successfully'))
+         yield put(masterApiCreate.success(meta!.uniqueKey, meta!.keys, payload.params, response.data || response, response.error, response.message || 'Created Successfully'))
       } else if (type === MASTER_API_UPDATE.REQUEST) {
-         yield put(masterApiUpdate.success(meta!.uniqueKey, meta!.keys, payload.params, response.data || response, response.message || 'Updated Successfully'))
+         yield put(masterApiUpdate.success(meta!.uniqueKey, meta!.keys, payload.params, response.data || response, response.error, response.message || 'Updated Successfully'))
       } else if (type === MASTER_API_LIST.REQUEST) {
-         yield put(masterApiList.success(meta!.uniqueKey, meta!.keys, payload.params, response.data || response, response.message || 'List Successfully'))
+         yield put(masterApiList.success(meta!.uniqueKey, meta!.keys, payload.params, response.data || response, response.error, response.message || 'List Successfully'))
       } else {
          console.log("No action found in saga")
       }
    } catch (err) {
       if (type === MASTER_API_FETCH.REQUEST) {
-         yield put(masterApiFetch.failure(meta!.uniqueKey, meta!.keys, payload.params, err.message))
+         yield put(masterApiFetch.failure(meta!.uniqueKey, meta!.keys, payload.params, true, err.message))
       } else if (type === MASTER_API_CREATE.REQUEST) {
-         yield put(masterApiCreate.failure(meta!.uniqueKey, meta!.keys, payload.params, err.message))
+         yield put(masterApiCreate.failure(meta!.uniqueKey, meta!.keys, payload.params, true, err.message))
       } else if (type === MASTER_API_UPDATE.REQUEST) {
-         yield put(masterApiUpdate.failure(meta!.uniqueKey, meta!.keys, payload.params, err.message))
+         yield put(masterApiUpdate.failure(meta!.uniqueKey, meta!.keys, payload.params, true, err.message))
       } else if (type === MASTER_API_LIST.REQUEST) {
-         yield put(masterApiList.failure(meta!.uniqueKey, meta!.keys, payload.params, err.message))
+         yield put(masterApiList.failure(meta!.uniqueKey, meta!.keys, payload.params, true, err.message))
       } else {
          console.log('Catch', err.message)
       }

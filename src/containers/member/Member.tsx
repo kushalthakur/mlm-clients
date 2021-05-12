@@ -1,6 +1,6 @@
-import { FC, ReactElement, useEffect } from 'react'
+import React, { FC, ReactElement, useEffect } from 'react'
 import { connect } from 'react-redux';
-import { TableContainer, Paper, Button } from '@material-ui/core'
+import { Container, Paper, Button } from '@material-ui/core'
 import { memberStyles } from '../../_thems'
 import SmartTable from '../../components/Table/SmartTable';
 import { memberHeader } from '../../components/TableHeader'
@@ -15,7 +15,7 @@ interface DispatchProps {
    showModal: Function
    hideModal: Function
    requestMembers: IActionCreator
-   createMaster: IActionCreator
+   createMaster: Function
 }
 interface StateProps {
    memberState: any
@@ -29,10 +29,16 @@ type Props = DispatchProps & StateProps & OwnProps
 
 const Member: FC<Props> = (props: Props): ReactElement => {
    const classes = memberStyles();
+   const { requestMembers, memberState } = props
    const showModal = () => {
       props.showModal(ModalType.MemberModal, {
          onSave: (result: any) => {
             props.createMaster({ body: result })
+            // .then((d: any) => {
+            //    console.log('d', d)
+            // }).catch((er: any) => {
+            //    console.log('er', er)
+            // })
             // props.hideModal()
          },
          onClose: () => {
@@ -40,12 +46,11 @@ const Member: FC<Props> = (props: Props): ReactElement => {
          }
       })
    }
-   const { requestMembers, memberState } = props
    useEffect(() => {
       requestMembers()
    }, [requestMembers])
    return (
-      <TableContainer component={Paper}>
+      <Container component={Paper} maxWidth={"xl"}>
          <div className={classes.root}>
             <Button variant="outlined" color="primary" onClick={(e) => showModal()}>Add Member</Button>
          </div>
@@ -53,7 +58,7 @@ const Member: FC<Props> = (props: Props): ReactElement => {
             data={memberState.data}
             headers={memberHeader}
          />
-      </TableContainer>
+      </Container>
    );
 }
 
