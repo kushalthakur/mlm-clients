@@ -34,11 +34,6 @@ const Member: FC<Props> = (props: Props): ReactElement => {
       props.showModal(ModalType.MemberModal, {
          onSave: (result: any) => {
             props.createMaster({ body: result })
-            // .then((d: any) => {
-            //    console.log('d', d)
-            // }).catch((er: any) => {
-            //    console.log('er', er)
-            // })
             // props.hideModal()
          },
          onClose: () => {
