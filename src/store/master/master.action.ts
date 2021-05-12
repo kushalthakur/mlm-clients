@@ -18,25 +18,25 @@ export const masterApiFetch = {
          }
       }
    },
-   success: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams, items: any, message: string): IStandardAction => {
+   success: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams, items: any, error: boolean, message: string): IStandardAction => {
       return {
          type: MASTER_API_FETCH.SUCCESS,
          meta: {
             uniqueKey, keys
          },
          payload: {
-            params, items, message
+            params, items, error, message
          }
       }
    },
-   failure: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams, message: string): IStandardAction => {
+   failure: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams, error: boolean, message: string): IStandardAction => {
       return {
          type: MASTER_API_FETCH.FAILURE,
          meta: {
             uniqueKey, keys
          },
          payload: {
-            params, message
+            params, error, message
          }
       }
    }
@@ -54,25 +54,25 @@ export const masterApiCreate = {
          }
       }
    },
-   success: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams, items: any, message: string): IStandardAction => {
+   success: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams, items: any, error: boolean, message: string): IStandardAction => {
       return {
          type: MASTER_API_CREATE.SUCCESS,
          meta: {
             uniqueKey, keys
          },
          payload: {
-            params, items, message
+            params, items, error, message
          }
       }
    },
-   failure: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams, message: string): IStandardAction => {
+   failure: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams, error: boolean, message: string): IStandardAction => {
       return {
          type: MASTER_API_CREATE.FAILURE,
          meta: {
             uniqueKey, keys
          },
          payload: {
-            params, message
+            params, error, message
          }
       }
    }
@@ -90,25 +90,25 @@ export const masterApiUpdate = {
          }
       }
    },
-   success: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams, items: any, message: string): any => {
+   success: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams, items: any, error: boolean, message: string): any => {
       return {
          type: MASTER_API_UPDATE.SUCCESS,
          meta: {
             uniqueKey, keys
          },
          payload: {
-            params, items, message
+            params, items, error, message
          }
       }
    },
-   failure: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams, message: string): any => {
+   failure: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams, error: boolean, message: string): any => {
       return {
          type: MASTER_API_UPDATE.FAILURE,
          meta: {
             uniqueKey, keys
          },
          payload: {
-            params, message
+            params, error, message
          }
       }
    }
@@ -126,25 +126,25 @@ export const masterApiList = {
          }
       };
    },
-   success: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams, items: any, message: string): IStandardAction => {
+   success: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams, items: any, error: boolean, message: string): IStandardAction => {
       return {
          type: MASTER_API_LIST.SUCCESS,
          meta: {
             uniqueKey, keys
          },
          payload: {
-            params, items, message
+            params, items, error, message
          }
       };
    },
-   failure: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams, message: string): IStandardAction => {
+   failure: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams, error: boolean, message: string): IStandardAction => {
       return {
          type: MASTER_API_LIST.FAILURE,
          meta: {
             uniqueKey, keys
          },
          payload: {
-            params, message
+            params, error, message
          }
       };
    }
@@ -154,10 +154,10 @@ export const masterApiDelete = {
    request: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams, resources?: any): any => {
 
    },
-   success: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams, items: any, message: string): any => {
+   success: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams, items: any, error: boolean, message: string): any => {
 
    },
-   failure: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams, message: string): any => {
+   failure: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams, error: boolean, message: string): any => {
 
    }
 }

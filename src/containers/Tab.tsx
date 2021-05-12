@@ -8,8 +8,8 @@
 import React, { FC, ReactElement, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { makeStyles, Theme, Tabs, Tab, Typography, Box, Paper } from '@material-ui/core';
-import D3Tree from './tree/D3Tree'
-import Member from './member/Member'
+// import D3Tree from './tree/D3Tree'
+// import Member from './member/Member'
 import { ApplicationState, ITreeState } from '../reducers';
 import { getTree } from '../actions';
 
@@ -83,7 +83,7 @@ const SimpleTabs: FC<any> = (props: Props): ReactElement => {
             {/* <D3Tree tree={tree} /> */}
          </TabPanel>
          <TabPanel value={value} index={1}>
-            <Member />
+            {/* <Member /> */}
          </TabPanel>
       </div>
    );

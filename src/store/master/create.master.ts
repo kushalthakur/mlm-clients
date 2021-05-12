@@ -9,35 +9,35 @@ export const getMasterActionCreators = (uniqueKey: string, keys: IMasterApiKeys)
          if (keys.request) {
             return masterApiFetch.request(uniqueKey, keys.request!, params!, resources)
          } else {
-            return masterApiFetch.failure(uniqueKey, keys.request!, params!, "Request Master Error")
+            return masterApiFetch.failure(uniqueKey, keys.request!, params!, true, "Request Master Error")
          }
       },
       createMaster: (params: IMasterApiParams = {}, resources?: any) => {
          if (keys.create) {
             return masterApiCreate.request(uniqueKey, keys.create!, params!, resources)
          } else {
-            return masterApiCreate.failure(uniqueKey, keys.create!, params!, "Create Master Error")
+            return masterApiCreate.failure(uniqueKey, keys.create!, params!, true, "Create Master Error")
          }
       },
       updateMaster: (params: IMasterApiParams = {}, resources?: any) => {
          if (keys.update) {
             return masterApiUpdate.request(uniqueKey, keys.update!, params!, resources)
          } else {
-            return masterApiUpdate.failure(uniqueKey, keys.update!, params!, "Update Master Error")
+            return masterApiUpdate.failure(uniqueKey, keys.update!, params!, true, "Update Master Error")
          }
       },
       listMaster: (params: IMasterApiParams = {}, resources?: any) => {
          if (keys.list) {
             return masterApiList.request(uniqueKey, keys.list!, params!, resources)
          } else {
-            return masterApiList.failure(uniqueKey, keys.list!, params!, "List Master Error");
+            return masterApiList.failure(uniqueKey, keys.list!, params!, true, "List Master Error");
          }
       },
       deleteMaster: (params: IMasterApiParams = {}, resources?: any) => {
          if (keys.delete) {
             return masterApiDelete.request(uniqueKey, keys.delete!, params!, resources)
          } else {
-            return masterApiDelete.failure(uniqueKey, keys.delete!, params!, resources)
+            return masterApiDelete.failure(uniqueKey, keys.delete!, params!, true, "Delete Master Error")
          }
       }
    }

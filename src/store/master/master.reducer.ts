@@ -27,7 +27,7 @@ export const params = (params: IMasterApiInfoReducer = {}, action: IMasterApiAct
             updateInProgress: action.type === MASTER_API_UPDATE.SUCCESS ? false : params.updateInProgress,
             fetchingList: action.type === MASTER_API_LIST.SUCCESS ? false : params.fetchingList,
             message: action.payload.message,
-            error: false
+            error: action.payload.error
          }
       case MASTER_API_FETCH.FAILURE:
       case MASTER_API_CREATE.FAILURE:
@@ -40,7 +40,7 @@ export const params = (params: IMasterApiInfoReducer = {}, action: IMasterApiAct
             updateInProgress: action.type === MASTER_API_UPDATE.FAILURE ? false : params.updateInProgress,
             fetchingList: action.type === MASTER_API_LIST.FAILURE ? false : params.fetchingList,
             message: action.payload.message,
-            error: true
+            error: action.payload.error
          }
       default:
          return params
@@ -48,8 +48,6 @@ export const params = (params: IMasterApiInfoReducer = {}, action: IMasterApiAct
 }
 
 export const items = (items: IMasterApiItemsReducer = {}, action: any = {}) => {
-   console.log('items ', items.data)
-   console.log('action ', action.payload.items)
    switch (action.type) {
       case MASTER_API_FETCH.SUCCESS:
       case MASTER_API_UPDATE.SUCCESS:
