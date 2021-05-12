@@ -14,6 +14,10 @@ export const getMasterListData = (master: IMasterApiReducer) => {
    return (master.items && master.items.list) || []
 }
 
+export const getMasterResources = (master: IMasterApiReducer) => {
+   return master ? master.resources : {}
+}
+
 export const haseError = (master: IMasterApiReducer) => {
    return master && master.info && master.info.error
 }
@@ -27,7 +31,7 @@ export const getMasterState = (masterApi: IMasterApiReducer, defaultValue?: any)
       deleteInProgress: isDeleting(masterApi)!,
       data: getMasterData(masterApi) || defaultValue,
       list: getMasterListData(masterApi),
-      resources: '',
+      resources: getMasterResources(masterApi),
       message: masterApi && masterApi.info && masterApi.info.message,
       error: haseError(masterApi)!
    }

@@ -27,7 +27,9 @@ instance.interceptors.request.use((req: AxiosRequestConfig) => {
 })
 // response interceptors
 instance.interceptors.response.use((response: AxiosResponse) => {
-   response && response.data && store.dispatch(alerts.error(response.data.message))
+   if (response && (response.status === 200 || response.status === 202)) {
+      // response && response.data && store.dispatch(alerts.success(response.data.message))
+   }
    return response.data
 }, error => {
    if (error && error.response && (error.response.status === 400 || error.response.status === 404 || error.response.status === 422 || error.response.status === 500)) {

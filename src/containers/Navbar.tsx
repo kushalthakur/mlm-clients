@@ -15,13 +15,13 @@ const Navbar: FC<Props> = (props: Props): ReactElement => {
          <AppBar position="static" style={{ backgroundColor: "#1fa3d8" }}>
             <Toolbar>
                <Typography variant="h6" className={classes.title}>
-                  <Link to="/tab" className={classes.buttonColor}>
+                  <Link to="/tree" className={classes.buttonColor}>
                      mlm
                   </Link>
                </Typography>
                <div className={classes.root}>
-                  <Link to="/deal" color="inherit" className={classes.buttonColor}>Deal</Link>
-                  <Link to="/commission" color="inherit" className={classes.buttonColor}>Commission</Link>
+                  <Link to="/tree" color="inherit" className={classes.buttonColor}>Tree</Link>
+                  <Link to="/members" color="inherit" className={classes.buttonColor}>Member</Link>
                </div>
                <div className={classes.search}>
                   <div className={classes.searchIcon}>

@@ -1,16 +1,10 @@
 import React from 'react'
 // import Loadable from 'react-loadable'
 import { Switch, Route } from 'react-router-dom'
-
 import Navbar from './Navbar'
-import TabComponent from './Tab'
-import Commission from './commission/Commission'
-import Deal from './deal/Deal'
 import ModalManager from '../components/Modals/ModalManager'
-// const TabComponent = Loadable({
-//    loader: () => import('./Tab'),
-//    loading: () => <div className="loading" />
-// })
+import D3Tree from './tree/D3Tree'
+import Member from './member/Member'
 
 interface StateProps {
 
@@ -29,9 +23,8 @@ class RootContainer extends React.Component<State, Props> {
             <ModalManager />
             <Navbar />
             <Switch>
-               <Route exact path="/tab" component={TabComponent} />
-               <Route exact path="/commission" component={Commission} />
-               <Route exact path="/deal" component={Deal} />
+               <Route exact path="/members" component={Member} />
+               <Route exact path="/tree" component={D3Tree} />
             </Switch>
          </React.Fragment>
       )

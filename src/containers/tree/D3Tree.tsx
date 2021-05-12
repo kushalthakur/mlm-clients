@@ -1,22 +1,39 @@
-import { FC, ReactElement } from 'react'
+import { FC, ReactElement, useEffect } from 'react'
 import Tree from 'react-d3-tree'
+import { connect } from 'react-redux';
 import '../../_thems/tree.css'
 import { useCenteredTree } from '../../components/Tree/useCenteredTree'
+import { ApplicationState, ITreeState } from '../../reducers';
+import { getTree } from '../../actions';
 
 const containerStyles = {
    width: '97vw',
    height: '88vh',
 }
-interface Props {
-   tree: Array<any>
+interface treeState {
+   treeState: ITreeState
 }
+interface DispatchProps {
+   fetchTree: Function
+}
+interface OwnProps {
+
+}
+
+type Props = DispatchProps & treeState & OwnProps
+
 
 const D3Tree: FC<Props> = (props: Props): ReactElement => {
    const [translate, containerRef] = useCenteredTree();
+   const { fetchTree, treeState } = props;
+   useEffect(() => {
+      fetchTree()
+   }, [fetchTree])
+   const tree = treeState && treeState.data && treeState.data.data !== undefined ? treeState.data.data : [{}]
    return (
       <div style={containerStyles} ref={containerRef}>
          <Tree
-            data={props.tree}
+            data={tree}
             rootNodeClassName="node__root"
             branchNodeClassName="node__branch"
             // svgClassName="node__svg"
@@ -30,4 +47,13 @@ const D3Tree: FC<Props> = (props: Props): ReactElement => {
    )
 }
 
-export default D3Tree
+const mapStateToProps = (state: ApplicationState): treeState => {
+   return {
+      treeState: state.tree
+   }
+}
+const mapDispatchToProps: DispatchProps = {
+   fetchTree: getTree
+}
+
+export default connect<treeState, DispatchProps, OwnProps, ApplicationState>(mapStateToProps, mapDispatchToProps)(D3Tree)

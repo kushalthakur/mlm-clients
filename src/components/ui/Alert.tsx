@@ -5,7 +5,7 @@ export const DangerAlert = (props: any) => {
       <Alert
          variant="outlined"
          style={{ width: "100%" }}
-         severity="error"
+         severity={props.type}
       // onClose={() => { }}
       >
          {props.message}

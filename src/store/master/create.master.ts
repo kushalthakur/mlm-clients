@@ -16,14 +16,14 @@ export const getMasterActionCreators = (uniqueKey: string, keys: IMasterApiKeys)
          if (keys.create) {
             return masterApiCreate.request(uniqueKey, keys.create!, params!, resources)
          } else {
-            return masterApiCreate.failure(uniqueKey, keys.create!, params!, resources)
+            return masterApiCreate.failure(uniqueKey, keys.create!, params!, "Create Master Error")
          }
       },
       updateMaster: (params: IMasterApiParams = {}, resources?: any) => {
          if (keys.update) {
             return masterApiUpdate.request(uniqueKey, keys.update!, params!, resources)
          } else {
-            return masterApiUpdate.failure(uniqueKey, keys.update!, params!, resources)
+            return masterApiUpdate.failure(uniqueKey, keys.update!, params!, "Update Master Error")
          }
       },
       listMaster: (params: IMasterApiParams = {}, resources?: any) => {

@@ -27,7 +27,7 @@ const Alerts: FC<Props> = (props: Props): ReactElement => {
    })
    return (
       <React.Fragment>
-         {alertState && alertState.message && < DangerAlert message={alertState && alertState.message} />}
+         {alertState && alertState.message && < DangerAlert type={alertState.type} message={alertState && alertState.message} />}
       </React.Fragment>
    )
 }
