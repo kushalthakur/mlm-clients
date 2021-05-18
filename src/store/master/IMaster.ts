@@ -7,6 +7,7 @@ export interface IMasterApiRequest {
 }
 
 export interface IMasterApiKeys {
+   pagination?: IMasterApiRequest
    request?: IMasterApiRequest
    create?: IMasterApiRequest
    update?: IMasterApiRequest
@@ -21,6 +22,9 @@ export interface IMasterApiParams {
    headers?: Headers
 }
 
+export interface IMasterApiPaginationRequestAction {
+   (params?: IMasterApiParams, resources?: any): IStandardAction
+}
 export interface IMasterApiRequestAction {
    (params?: IMasterApiParams, resources?: any): IStandardAction
 }
@@ -38,6 +42,7 @@ export interface IMasterApiDeleteAction {
 }
 
 export interface IMasterApiActionCreators {
+   requestPagination: IMasterApiPaginationRequestAction
    requestMaster: IMasterApiRequestAction
    createMaster: IMasterApiCreateAction
    updateMaster: IMasterApiUpdateAction
@@ -46,6 +51,9 @@ export interface IMasterApiActionCreators {
 }
 
 export interface IMasterApiInfoReducer {
+   page?: number
+   pageSize?: number
+   totalCount?: number
    params?: IMasterApiParams
    fetching?: boolean
    fetchingList?: boolean
@@ -91,9 +99,12 @@ export interface IMasterApiState {
    updateInProgress?: boolean
    createInProgress?: boolean
    deleteInProgress?: boolean
+   page?: number
+   pageSize?: number
+   totalCount?: number
    data: any
+   list: Array<any>
    resources: any
    error: boolean
    message: string | undefined
-   list: Array<any>
 }

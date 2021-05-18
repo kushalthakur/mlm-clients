@@ -22,41 +22,41 @@ export const memberHeader: Array<ITableHeader> = [
       sort: false,
       filter: false
    },
-   {
-      label: "email",
-      text: "Email Address",
-      type: "string",
-      sort: false,
-      filter: false
-   },
-   {
-      label: "phone",
-      text: "Phone",
-      type: "string",
-      sort: false,
-      filter: false
-   },
-   {
-      label: "address",
-      text: "Address",
-      type: "string",
-      sort: false,
-      filter: false
-   },
-   {
-      label: "age",
-      text: "Age",
-      type: "string",
-      sort: false,
-      filter: false
-   },
-   {
-      label: "dateOfBirth",
-      text: "Date of Birth",
-      type: "string",
-      sort: false,
-      filter: false
-   },
+   // {
+   //    label: "email",
+   //    text: "Email Address",
+   //    type: "string",
+   //    sort: false,
+   //    filter: false
+   // },
+   // {
+   //    label: "phone",
+   //    text: "Phone",
+   //    type: "string",
+   //    sort: false,
+   //    filter: false
+   // },
+   // {
+   //    label: "address",
+   //    text: "Address",
+   //    type: "string",
+   //    sort: false,
+   //    filter: false
+   // },
+   // {
+   //    label: "age",
+   //    text: "Age",
+   //    type: "string",
+   //    sort: false,
+   //    filter: false
+   // },
+   // {
+   //    label: "dateOfBirth",
+   //    text: "Date of Birth",
+   //    type: "string",
+   //    sort: false,
+   //    filter: false
+   // },
    {
       label: "status",
       text: "Status",

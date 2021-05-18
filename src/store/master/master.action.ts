@@ -1,10 +1,47 @@
 import { defineRequestType, IRequestType, IStandardAction } from '../../actions'
 import { IMasterApiParams, IMasterApiRequest } from './IMaster'
 
+export const MASTER_API_PAGINATOR: IRequestType = defineRequestType("@REDUX_MASTER_API_PAGINATOR")
 export const MASTER_API_FETCH: IRequestType = defineRequestType("@REDUX_MASTER_API_FETCH")
 export const MASTER_API_CREATE: IRequestType = defineRequestType("@REDUX_MASTER_API_CREATE")
 export const MASTER_API_UPDATE: IRequestType = defineRequestType("@REDUX_MASTER_API_UPDATE")
 export const MASTER_API_LIST: IRequestType = defineRequestType("@REDUX_MASTER_API_LIST")
+
+export const requestPaginator = {
+   request: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams): IStandardAction => {
+      return {
+         type: MASTER_API_PAGINATOR.REQUEST,
+         meta: {
+            uniqueKey, keys
+         },
+         payload: {
+            params
+         }
+      }
+   },
+   success: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams, items: any, totalCount: number, error: boolean, message: string): IStandardAction => {
+      return {
+         type: MASTER_API_PAGINATOR.SUCCESS,
+         meta: {
+            uniqueKey, keys
+         },
+         payload: {
+            params, items, totalCount, error, message
+         }
+      }
+   },
+   failure: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams, error: boolean, message: string): IStandardAction => {
+      return {
+         type: MASTER_API_PAGINATOR.FAILURE,
+         meta: {
+            uniqueKey, keys
+         },
+         payload: {
+            params, error, message
+         }
+      }
+   }
+}
 
 export const masterApiFetch = {
    request: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams, resources?: any): IStandardAction => {

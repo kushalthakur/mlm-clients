@@ -9,12 +9,18 @@ import { StyledTableRow } from '../../_thems'
 interface OwnProps {
    data: any
    headers: Array<ITableHeader>
+   handleRowClick?: Function
 }
 
 type Props = OwnProps
 
 const SmartTable: FC<Props> = (props: Props): ReactElement => {
    const classes = memberStyles()
+   const handleRowClick = (row: any) => {
+      if (props.handleRowClick) {
+         props.handleRowClick(row)
+      }
+   }
    const { data, headers } = props
    return (
       <React.Fragment>
@@ -22,14 +28,21 @@ const SmartTable: FC<Props> = (props: Props): ReactElement => {
             <TableHead>
                <TableRow>
                   {headers && headers.map((header: ITableHeader, index: number) => (
-                     <SmartHeader header={header} key={index} />
+                     <SmartHeader
+                        header={header}
+                        key={index}
+                     />
                   ))}
                </TableRow>
             </TableHead>
             <TableBody>
                {data && data.map((row: any, index: number) => (
                   <StyledTableRow key={index}>
-                     <SmartRow row={row} headers={headers} />
+                     <SmartRow
+                        row={row}
+                        headers={headers}
+                        onRowClick={handleRowClick}
+                     />
                   </StyledTableRow>
                ))}
             </TableBody>

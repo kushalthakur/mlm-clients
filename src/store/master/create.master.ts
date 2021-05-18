@@ -1,10 +1,17 @@
 import { combineReducers, Reducer } from 'redux'
-import { masterApiFetch, masterApiCreate, masterApiUpdate, masterApiList, masterApiDelete } from './master.action'
+import { requestPaginator, masterApiFetch, masterApiCreate, masterApiUpdate, masterApiList, masterApiDelete } from './master.action'
 import { params as paramReducer, items as itemReducer, resources as resourcesReducer } from './master.reducer'
 import { IMasterApi, IMasterApiKeys, IMasterApiItemsReducer, IMasterApiInfoReducer, IMasterApiAction, IMasterApiActionCreators, IMasterApiParams } from './IMaster'
 
 export const getMasterActionCreators = (uniqueKey: string, keys: IMasterApiKeys): IMasterApiActionCreators => {
    return {
+      requestPagination: (params: IMasterApiParams = {}) => {
+         if (keys.pagination) {
+            return requestPaginator.request(uniqueKey, keys.pagination!, params!)
+         } else {
+            return requestPaginator.failure(uniqueKey, keys.pagination!, params!, true, "Request Pagination Error")
+         }
+      },
       requestMaster: (params: IMasterApiParams = {}, resources?: any) => {
          if (keys.request) {
             return masterApiFetch.request(uniqueKey, keys.request!, params!, resources)

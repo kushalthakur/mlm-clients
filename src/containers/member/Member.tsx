@@ -1,6 +1,7 @@
-import React, { FC, ReactElement, useEffect } from 'react'
+import React, { FC, ReactElement } from 'react'
 import { connect } from 'react-redux';
 import { Container, Paper, Button } from '@material-ui/core'
+import { History } from 'history'
 import { memberStyles } from '../../_thems'
 import SmartTable from '../../components/Table/SmartTable';
 import { memberHeader } from '../../components/TableHeader'
@@ -14,26 +15,26 @@ import { getMasterState } from '../../store/master/master.selector';
 interface DispatchProps {
    showModal: Function
    hideModal: Function
-   requestMembers: IActionCreator
-   createMaster: Function
+   requestPage: IActionCreator
+   createMaster: IActionCreator
 }
 interface StateProps {
    memberState: any
 }
 
 interface OwnProps {
-
+   history: History
 }
 
 type Props = DispatchProps & StateProps & OwnProps
 
 const Member: FC<Props> = (props: Props): ReactElement => {
    const classes = memberStyles();
-   const { requestMembers, memberState } = props
+   const { requestPage, createMaster, memberState } = props
    const showModal = () => {
       props.showModal(ModalType.MemberModal, {
          onSave: (result: any) => {
-            props.createMaster({ body: result })
+            createMaster({ body: result })
             // props.hideModal()
          },
          onClose: () => {
@@ -41,33 +42,38 @@ const Member: FC<Props> = (props: Props): ReactElement => {
          }
       })
    }
-   useEffect(() => {
-      requestMembers()
-   }, [requestMembers])
+   React.useEffect(() => {
+      requestPage()
+   }, [requestPage])
+   const handleRowClick = (row: any) => {
+      setTimeout(() => {
+         props.history.push(`/member/${row.id}`)
+      }, 200)
+   }
    return (
-      <Container component={Paper} maxWidth={"xl"}>
+      <Container component={Paper} maxWidth={"lg"}>
          <div className={classes.root}>
             <Button variant="outlined" color="primary" onClick={(e) => showModal()}>Add Member</Button>
          </div>
          <SmartTable
             data={memberState.data}
             headers={memberHeader}
+            handleRowClick={handleRowClick}
          />
       </Container>
    );
 }
 
 const mapStateToProps = (state: ApplicationState): StateProps => {
-   const memberState = getMasterState(state.members.manageMembers, undefined)
    return {
-      memberState: memberState
+      memberState: getMasterState(state.members.manageMembers, undefined)
    }
 }
 
 const mapDispatchToProps: DispatchProps = {
-   showModal: showModal,
-   hideModal: hideModal,
-   requestMembers: masterMembers.requestMaster,
+   showModal,
+   hideModal,
+   requestPage: masterMembers.requestPagination,
    createMaster: masterMembers.createMaster
 }
 

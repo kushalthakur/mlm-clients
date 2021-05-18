@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useEffect } from 'react'
+import React, { FC, ReactElement } from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux';
 import { Theme, withStyles, WithStyles, Button, Dialog, IconButton, Typography, Grid } from '@material-ui/core';
@@ -66,6 +66,7 @@ type Props = StateProps & DispatchProps & OwnProps
 
 const MemberModal: FC<Props> = (props: Props): ReactElement => {
    const classes = modalPosition()
+   const { requestList, memberState } = props
    const handleClose = () => {
       props.onClose()
    };
@@ -77,8 +78,7 @@ const MemberModal: FC<Props> = (props: Props): ReactElement => {
       e.preventDefault()
       props.reset()
    }
-   const { requestList, memberState } = props
-   useEffect(() => {
+   React.useEffect(() => {
       requestList()
    }, [requestList])
    let sponsorOptions: Array<any> = memberState.list.map((item: any) => {
@@ -129,9 +129,8 @@ const MemberModal: FC<Props> = (props: Props): ReactElement => {
 }
 
 const mapStateToProps = (state: ApplicationState): StateProps => {
-   const memberState = getMasterState(state.members.manageMembers, undefined)
    return {
-      memberState: memberState
+      memberState: getMasterState(state.members.manageMembers, undefined)
    }
 }
 export default connect(mapStateToProps, {

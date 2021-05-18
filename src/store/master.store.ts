@@ -1,13 +1,10 @@
 import { createMasterApi } from './master'
 
-// export const masterMemberPagination = createMasterApi("@Master/MasterMemberPagination", {
-//    paginationRequest: {
-//       url: "/api/members",
-//       method: "GET"
-//    }
-// })
-
 export const masterMembers = createMasterApi("@Master/MasterMembers", {
+   pagination: {
+      url: "/api/members",
+      method: "GET"
+   },
    request: {
       url: "/api/members",
       method: "GET"
