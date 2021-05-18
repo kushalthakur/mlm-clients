@@ -1,13 +1,16 @@
 import { IMasterApiAction, IMasterApiInfoReducer, IMasterApiItemsReducer } from './IMaster'
-import { MASTER_API_CREATE, MASTER_API_FETCH, MASTER_API_LIST, MASTER_API_UPDATE } from './master.action'
+import { MASTER_API_PAGINATOR, MASTER_API_CREATE, MASTER_API_FETCH, MASTER_API_LIST, MASTER_API_UPDATE } from './master.action'
 
 export const params = (params: IMasterApiInfoReducer = {}, action: IMasterApiAction) => {
    switch (action.type) {
+      case MASTER_API_PAGINATOR.REQUEST:
       case MASTER_API_FETCH.REQUEST:
       case MASTER_API_CREATE.REQUEST:
       case MASTER_API_UPDATE.REQUEST:
       case MASTER_API_LIST.REQUEST:
          return {
+            page: action.payload.page || 0,
+            pageSize: action.payload.pageSize || 10,
             params: action.payload.params,
             fetching: action.type === MASTER_API_FETCH.REQUEST ? true : params.fetching,
             createInProgress: action.type === MASTER_API_CREATE.REQUEST ? true : params.createInProgress,
@@ -16,11 +19,13 @@ export const params = (params: IMasterApiInfoReducer = {}, action: IMasterApiAct
             message: undefined,
             error: false
          }
+      case MASTER_API_PAGINATOR.SUCCESS:
       case MASTER_API_FETCH.SUCCESS:
       case MASTER_API_CREATE.SUCCESS:
       case MASTER_API_UPDATE.SUCCESS:
       case MASTER_API_LIST.SUCCESS:
          return {
+            totalCount: action.payload.totalCount,
             params: action.payload.params,
             fetching: action.type === MASTER_API_FETCH.SUCCESS ? false : params.fetching,
             createInProgress: action.type === MASTER_API_CREATE.SUCCESS ? false : params.createInProgress,
@@ -49,6 +54,7 @@ export const params = (params: IMasterApiInfoReducer = {}, action: IMasterApiAct
 
 export const items = (items: IMasterApiItemsReducer = {}, action: any = {}) => {
    switch (action.type) {
+      case MASTER_API_PAGINATOR.SUCCESS:
       case MASTER_API_FETCH.SUCCESS:
       case MASTER_API_UPDATE.SUCCESS:
          return {
@@ -56,10 +62,15 @@ export const items = (items: IMasterApiItemsReducer = {}, action: any = {}) => {
             data: action.payload.items
          }
       case MASTER_API_CREATE.SUCCESS:
-         return {
-            ...items,
-            data: [action.payload.items, ...items.data]
-         }
+         let errors = Object.keys(action.payload.items)
+         let error = errors.includes('error')
+         if (error)
+            return
+         else
+            return {
+               ...items,
+               data: [action.payload.items, ...items.data]
+            }
       case MASTER_API_LIST.SUCCESS:
          return {
             ...items,
@@ -72,6 +83,7 @@ export const items = (items: IMasterApiItemsReducer = {}, action: any = {}) => {
 
 export const resources = (resources: any = {}, action: any = {}) => {
    switch (action.type) {
+      case MASTER_API_PAGINATOR.SUCCESS:
       case MASTER_API_FETCH.SUCCESS:
       case MASTER_API_CREATE.SUCCESS:
       case MASTER_API_UPDATE.SUCCESS:

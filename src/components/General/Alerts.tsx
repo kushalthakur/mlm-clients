@@ -1,5 +1,5 @@
 
-import React, { FC, ReactElement, useEffect } from 'react'
+import React, { FC, ReactElement } from 'react'
 import { connect } from 'react-redux'
 import { alerts } from '../../actions'
 import { ApplicationState, IAlertState } from '../../reducers'
@@ -16,7 +16,7 @@ type Props = DispatchProps & StateProps & OwnProps
 
 const Alerts: FC<Props> = (props: Props): ReactElement => {
    const { alertState } = props
-   useEffect(() => {
+   React.useEffect(() => {
       let _timeout: number = 0
       if (alertState.visible) {
          window.clearTimeout(_timeout)

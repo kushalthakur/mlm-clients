@@ -7,8 +7,9 @@ export const memberStyles = makeStyles((theme: Theme) =>
       },
       root: {
          '& > *': {
-            margin: theme.spacing(1)
+            margin: theme.spacing(0.4)
          },
+         marginTop: "20px",
          textAlign: 'right'
       }
    }))
