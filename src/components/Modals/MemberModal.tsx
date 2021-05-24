@@ -13,6 +13,8 @@ import { IActionCreator } from '../../actions';
 import { getMasterState } from '../../store/master/master.selector';
 import { styles, modalPosition } from '../../_thems'
 import Alerts from '../General/Alerts';
+import { calculateAge } from '../../_helpers'
+import { convertOptionsToValue } from '../../utils';
 
 export interface DialogTitleProps extends WithStyles<typeof styles> {
    id: string;
@@ -60,13 +62,15 @@ interface OwnProps {
    hideModal: () => void
    onClose: () => void
    onSave: (data: any) => void
+   change: Function
 }
 
 type Props = StateProps & DispatchProps & OwnProps
 
 const MemberModal: FC<Props> = (props: Props): ReactElement => {
    const classes = modalPosition()
-   const { requestList, memberState } = props
+   const [age, setAge] = React.useState(0)
+   const { requestList, change, memberState } = props
    const handleClose = () => {
       props.onClose()
    };
@@ -78,12 +82,15 @@ const MemberModal: FC<Props> = (props: Props): ReactElement => {
       e.preventDefault()
       props.reset()
    }
+   const handleChange = (value: any) => {
+      setAge(calculateAge(value))
+   }
    React.useEffect(() => {
       requestList()
    }, [requestList])
-   let sponsorOptions: Array<any> = memberState.list.map((item: any) => {
-      return ({ label: item.sponsorId, value: item.sponsorId })
-   })
+   React.useEffect(() => {
+      change('age', age)
+   }, [change, age])
    return (
       <div>
          <Dialog classes={{ paper: classes.dialog }} onClose={handleClose} aria-labelledby="customized-dialog-title" open={true} maxWidth="md">
@@ -101,12 +108,13 @@ const MemberModal: FC<Props> = (props: Props): ReactElement => {
                      <Field component={FormInput} variant="outlined" label="Username" name="username" isEditable={true}
                         validate={[ReduxValidation.required]} />
                      <Field component={FormInput} variant="outlined" label="Address" name="address" isEditable={true} />
-                     <Field component={AutoComplete} variant="outlined" label="Sponsor ID" name="sponsorId" options={sponsorOptions}
+                     <Field component={AutoComplete} variant="outlined" label="Sponsor ID" name="sponsorId" options={convertOptionsToValue(memberState.list, 'sponsorId')}
                         isEditable={true} validate={[ReduxValidation.required]}
                      />
                   </Grid>
                   <Grid item xs={6}>
-                     <Field component={FormDatePicker} label="Date of Birth" name="dateOfBirth" type="text" dateFormat="dd/MM/yyyy" isEditable={true} />
+                     <Field component={FormDatePicker} label="Date of Birth" name="dateOfBirth" type="text" dateFormat="dd/MM/yyyy"
+                        isEditable={true} maxDate={new Date()} onChange={handleChange} />
                      <Field component={FormInput} variant="outlined" label="Email Address" name="email" type="email" isEditable={true}
                         validate={[ReduxValidation.email]}
                      />

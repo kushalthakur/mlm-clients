@@ -5,7 +5,7 @@ import Navbar from './Navbar'
 import ModalManager from '../components/Modals/ModalManager'
 import D3Tree from './tree/D3Tree'
 import Member from './member/Member'
-import MemberView from './member/MemberView'
+import MemberEdit from './member/MemberEdit'
 
 interface StateProps {
 
@@ -26,7 +26,7 @@ class RootContainer extends React.Component<State, Props> {
             <Switch>
                <Route exact path="/tree" component={D3Tree} />
                <Route exact path="/members" component={Member} />
-               <Route exact path="/member/:memberId" component={MemberView} />
+               <Route exact path="/member/:memberId" component={MemberEdit} />
             </Switch>
          </React.Fragment>
       )

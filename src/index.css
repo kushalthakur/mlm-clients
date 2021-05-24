@@ -16,3 +16,7 @@ code {
 
 /*React Datepicker CSS*/
 .react-datepicker-popper {z-index: 9999 !important;}
+/*Pagination*/
+.pagination-center {display: flex;justify-content: center;align-items: center; }
+/*bold class font color*/
+.bold {font-weight: 600; }

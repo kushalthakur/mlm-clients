@@ -5,7 +5,7 @@ import {
    MASTER_API_PAGINATOR, MASTER_API_CREATE, MASTER_API_FETCH, MASTER_API_LIST, MASTER_API_UPDATE
 } from './master.action'
 import { getToken, baseURL } from '../selectors'
-import { fetchGetRequest, fetchPostRequest } from '../../utils'
+import { fetchGetRequest, fetchPostRequest, generateUrlWithRequestParams, encodeQueryData } from '../../utils'
 import { IMasterApiAction, IMasterApiParams } from './IMaster'
 
 export function* requestMasterOperation(action: IMasterApiAction): IterableIterator<{}> {
@@ -15,7 +15,7 @@ export function* requestMasterOperation(action: IMasterApiAction): IterableItera
       const params = payload.params as IMasterApiParams
       let resp: any = undefined
       let url = `${yield select(baseURL)}${meta!.keys.url}`
-      console.log('url ', url)
+      url = getFullUrl(url, payload.params)
       const body: any = (params && params.body) || {}
       if (meta!.keys.method === 'POST' || meta!.keys.method === 'PUT') {
          resp = yield (call as any)(fetchPostRequest, url, token, body, meta!.keys.method, params.headers)
@@ -58,4 +58,17 @@ export function* watchMasterApiEvent(): SagaIterator {
    yield takeEvery(MASTER_API_CREATE.REQUEST, requestMasterOperation)
    yield takeEvery(MASTER_API_UPDATE.REQUEST, requestMasterOperation)
    yield takeEvery(MASTER_API_LIST.REQUEST, requestMasterOperation)
+}
+
+const getFullUrl = (baseUrl: string, params: IMasterApiParams) => {
+   if (params && params.urlParams) {
+      baseUrl = generateUrlWithRequestParams(baseUrl, params.urlParams)
+   }
+   if (params && params.queryParams) {
+      baseUrl = `${baseUrl}?${encodeQueryData(params)}`
+   }
+   if (params && (params.page || params.pageSize)) {
+      baseUrl = `${baseUrl}?limit=${params.pageSize || 10}&page=${params.page || 0}`
+   }
+   return baseUrl
 }

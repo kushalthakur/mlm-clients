@@ -38,7 +38,12 @@ export const FormInput = (props: Props) => {
                />
             </React.Fragment>
          }
-         {!isEditable && <div>{input.value || defaultValue}</div>}
+         {!isEditable && <>
+            <label className="bold">{label}</label>
+            <div>
+               {input.value || defaultValue}
+            </div>
+         </>}
       </React.Fragment>
    )
 }

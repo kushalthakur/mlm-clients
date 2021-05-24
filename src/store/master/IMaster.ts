@@ -16,6 +16,8 @@ export interface IMasterApiKeys {
 }
 
 export interface IMasterApiParams {
+   page?: number
+   pageSize?: number
    queryParams?: { [key: string]: number | string | boolean }
    body?: Object
    urlParams?: { [key: string]: number | string }
@@ -79,6 +81,8 @@ export interface IMasterApi extends IMasterApiActionCreators {
 }
 
 export interface IMasterApiItemsReducer {
+   results?: any
+   totalCount?: number
    data?: any
    list?: Array<any>
 }
@@ -102,6 +106,7 @@ export interface IMasterApiState {
    page?: number
    pageSize?: number
    totalCount?: number
+   results: Array<any>
    data: any
    list: Array<any>
    resources: any

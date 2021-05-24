@@ -26,8 +26,10 @@ export const AutoComplete = (props: Props) => {
                options={options}
                getOptionLabel={(option: any) => option.label}
                getOptionSelected={(option: any, value: any) => option.value === value.value}
+               value={{ label: input.value && input.value, value: "15797193" }}
                style={{ marginTop: 15 }}
                size="small"
+               autoSelect
                renderInput={(params) =>
                   <TextField
                      {...params}
@@ -41,7 +43,12 @@ export const AutoComplete = (props: Props) => {
                }
             />
          }
-         {!isEditable && <div>{input.value || defaultValue}</div>}
+         {!isEditable && <>
+            <label className="bold">{label}</label>
+            <div>
+               {input.value || defaultValue}
+            </div>
+         </>}
       </React.Fragment>
    )
 }

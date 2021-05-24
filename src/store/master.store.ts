@@ -6,7 +6,7 @@ export const masterMembers = createMasterApi("@Master/MasterMembers", {
       method: "GET"
    },
    request: {
-      url: "/api/members",
+      url: "/api/member/:memberId",
       method: "GET"
    },
    create: {

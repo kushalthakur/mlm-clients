@@ -55,12 +55,17 @@ export const params = (params: IMasterApiInfoReducer = {}, action: IMasterApiAct
 export const items = (items: IMasterApiItemsReducer = {}, action: any = {}) => {
    switch (action.type) {
       case MASTER_API_PAGINATOR.SUCCESS:
+         return {
+            ...items,
+            results: action.payload.items,
+            totalCount: action.payload.totalCount
+         }
       case MASTER_API_FETCH.SUCCESS:
-      case MASTER_API_UPDATE.SUCCESS:
          return {
             ...items,
             data: action.payload.items
          }
+      case MASTER_API_UPDATE.SUCCESS:
       case MASTER_API_CREATE.SUCCESS:
          let errors = Object.keys(action.payload.items)
          let error = errors.includes('error')
@@ -69,7 +74,8 @@ export const items = (items: IMasterApiItemsReducer = {}, action: any = {}) => {
          else
             return {
                ...items,
-               data: [action.payload.items, ...items.data]
+               results: [action.payload.items, ...items.results],
+               totalCount: items.totalCount
             }
       case MASTER_API_LIST.SUCCESS:
          return {
@@ -88,11 +94,9 @@ export const resources = (resources: any = {}, action: any = {}) => {
       case MASTER_API_CREATE.SUCCESS:
       case MASTER_API_UPDATE.SUCCESS:
       case MASTER_API_LIST.SUCCESS:
-         {
-            return {
-               ...action.resources,
-               ...action.payload.resources
-            }
+         return {
+            ...action.resources,
+            ...action.payload.resources
          }
       default:
          return resources
