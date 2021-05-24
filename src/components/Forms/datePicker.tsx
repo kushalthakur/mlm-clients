@@ -1,8 +1,9 @@
 import React from 'react'
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css"
+import moment from 'moment'
 
-export const FormDatePicker = ({ input, name, dateFormat, isEditable, disabled, label, defaultValue = '-', meta, ...props }: any) => {
+export const FormDatePicker = ({ input, name, dateFormat, isEditable, disabled, label, maxDate, defaultValue = '-', meta, ...props }: any) => {
    const { error, touched } = meta
    return (
       <React.Fragment>
@@ -10,7 +11,6 @@ export const FormDatePicker = ({ input, name, dateFormat, isEditable, disabled, 
             <React.Fragment>
                <div className="MuiFormControl-root MuiTextField-root MuiFormControl-marginNormal MuiFormControl-fullWidth">
                   <DatePicker
-                     {...input}
                      {...props}
                      selected={input.value ? new Date(input.value) : undefined}
                      onChange={(date: any) => input.onChange(date)}
@@ -20,6 +20,7 @@ export const FormDatePicker = ({ input, name, dateFormat, isEditable, disabled, 
                      showYearDropdown
                      dropdownMode="select"
                      name={name}
+                     maxDate={maxDate}
                      className="form-control"
                      dateFormat={dateFormat}
                      disabled={disabled}
@@ -29,7 +30,12 @@ export const FormDatePicker = ({ input, name, dateFormat, isEditable, disabled, 
                </div>
             </React.Fragment>
          }
-         {!isEditable && <div>{input.value || defaultValue}</div>}
+         {!isEditable && <>
+            <label className="bold">{label}</label>
+            <div>
+               {(input.value && moment(input.value).format('Do MMMM YYYY')) || defaultValue}
+            </div>
+         </>}
       </React.Fragment>
    )
 }

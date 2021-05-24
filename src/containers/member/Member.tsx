@@ -42,9 +42,6 @@ const Member: FC<Props> = (props: Props): ReactElement => {
          }
       })
    }
-   React.useEffect(() => {
-      requestPage()
-   }, [requestPage])
    const handleRowClick = (row: any) => {
       setTimeout(() => {
          props.history.push(`/member/${row.id}`)
@@ -56,9 +53,13 @@ const Member: FC<Props> = (props: Props): ReactElement => {
             <Button variant="outlined" color="primary" onClick={(e) => showModal()}>Add Member</Button>
          </div>
          <SmartTable
-            data={memberState.data}
+            data={memberState.results}
+            count={memberState.totalCount}
             headers={memberHeader}
             handleRowClick={handleRowClick}
+            manageActivities={(data: any) => {
+               requestPage(data)
+            }}
          />
       </Container>
    );

@@ -31,10 +31,11 @@ export const styles = (theme: Theme) => createStyles({
    },
 });
 
-export const modalPosition = makeStyles((theme: Theme) => createStyles({
-   dialog: {
-      position: 'absolute',
-      top: 50
-   }
-}));
+export const modalPosition = makeStyles((theme: Theme) =>
+   createStyles({
+      dialog: {
+         position: 'absolute',
+         top: 50
+      }
+   }));
 
