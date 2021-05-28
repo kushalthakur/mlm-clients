@@ -1,81 +1,73 @@
-import React, { FC, ReactElement } from 'react'
-import { connect } from 'react-redux';
-import { Container, Paper, Button } from '@material-ui/core'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { Container, Paper, Button, Grid, TextField } from '@material-ui/core'
 import { History } from 'history'
-import { memberStyles } from '../../_thems'
+import { containerStyle } from '../../_thems'
 import SmartTable from '../../components/Table/SmartTable';
 import { memberHeader } from '../../components/TableHeader'
 import { hideModal, showModal } from '../../actions/modal';
 import { ModalType } from '../../components/Modals/ModalManager';
 import { masterMembers } from '../../store/master.store'
-import { IActionCreator } from '../../actions';
 import { ApplicationState } from '../../reducers';
 import { getMasterState } from '../../store/master/master.selector';
+import { IMasterApiState } from '../../store/master';
 
-interface DispatchProps {
-   showModal: Function
-   hideModal: Function
-   requestPage: IActionCreator
-   createMaster: IActionCreator
-}
-interface StateProps {
-   memberState: any
-}
-
-interface OwnProps {
+interface Props {
    history: History
 }
 
-type Props = DispatchProps & StateProps & OwnProps
-
-const Member: FC<Props> = (props: Props): ReactElement => {
-   const classes = memberStyles();
-   const { requestPage, createMaster, memberState } = props
-   const showModal = () => {
-      props.showModal(ModalType.MemberModal, {
+const Member: React.FC<Props> = (props: Props): React.ReactElement => {
+   const classes = containerStyle()
+   const memberState = useSelector((state: ApplicationState): IMasterApiState => getMasterState(state.members.manageMembers, undefined))
+   const dispatch = useDispatch()
+   const [filter, setFilter] = React.useState(false)
+   const openModal = () => {
+      dispatch(showModal(ModalType.MemberModal, {
          onSave: (result: any) => {
-            createMaster({ body: result })
-            // props.hideModal()
+            dispatch(masterMembers.createMaster({ body: result }))
+            // dispatch(hideModal())
          },
          onClose: () => {
-            props.hideModal()
+            dispatch(hideModal())
          }
-      })
+      }))
+   }
+   const filters = () => {
+      setFilter(!filter)
+   }
+   const handleFilter = (e: any) => {
+      let firstName = { [e.target.name]: e.target.value }
+      dispatch(masterMembers.requestPagination({ page: 0, pageSize: 10, queryParams: firstName }))
    }
    const handleRowClick = (row: any) => {
       setTimeout(() => {
          props.history.push(`/member/${row.id}`)
       }, 200)
    }
+   const count = memberState.totalCount !== undefined ? memberState.totalCount : 0
    return (
-      <Container component={Paper} maxWidth={"lg"}>
-         <div className={classes.root}>
-            <Button variant="outlined" color="primary" onClick={(e) => showModal()}>Add Member</Button>
-         </div>
+      <Container component={Paper} className={classes.root}>
+         <Grid container className="space-above-below">
+            <Grid item xs>
+               <Button variant="contained" color="primary" onClick={filters}>Filter</Button> {' '}
+               {filter && <TextField name="firstName" size="small" variant="outlined" onChange={handleFilter} />}
+            </Grid>
+            <Grid item>
+               <Button variant="contained" color="primary" onClick={openModal}>Add</Button>
+            </Grid>
+         </Grid>
          <SmartTable
             data={memberState.results}
-            count={memberState.totalCount}
+            count={count}
             headers={memberHeader}
             handleRowClick={handleRowClick}
-            manageActivities={(data: any) => {
-               requestPage(data)
+            manageActivities={(option: any) => {
+               const { page, pageSize, ...other } = option
+               dispatch(masterMembers.requestPagination({ page, pageSize, queryParams: other }))
             }}
          />
       </Container>
    );
 }
 
-const mapStateToProps = (state: ApplicationState): StateProps => {
-   return {
-      memberState: getMasterState(state.members.manageMembers, undefined)
-   }
-}
-
-const mapDispatchToProps: DispatchProps = {
-   showModal,
-   hideModal,
-   requestPage: masterMembers.requestPagination,
-   createMaster: masterMembers.createMaster
-}
-
-export default connect<StateProps, DispatchProps, OwnProps, ApplicationState>(mapStateToProps, mapDispatchToProps)(Member)
+export default Member

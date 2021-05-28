@@ -11,7 +11,7 @@ export const getCurrentPageResults = (pagination: IMasterApiReducer) => {
 }
 
 export const getMasterData = (master: IMasterApiReducer) => {
-   return (master.items && master.items.data !== undefined ? master.items.data : [])
+   return (master.items && master.items.data !== undefined ? master.items.data : undefined)
 }
 
 export const getMasterListData = (master: IMasterApiReducer) => {
@@ -25,7 +25,6 @@ export const getMasterResources = (master: IMasterApiReducer) => {
 export const getPageCount = (pagination: IMasterApiReducer): IMasterApiInfoReducer => (pagination.items || {})
 
 export const haseError = (master: IMasterApiReducer) => master && master.info && master.info.error
-
 
 export const getMasterState = (masterApi: IMasterApiReducer, defaultValue?: any): IMasterApiState => {
    return {

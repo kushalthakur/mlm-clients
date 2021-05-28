@@ -2,13 +2,11 @@ import React, { FC, ReactElement } from 'react'
 import { ITableHeader } from '../TableHeader/models'
 import { StyledTableCell } from '../../_thems'
 
-interface OwnProps {
+interface Props {
    row: any
    headers: Array<ITableHeader>
    onRowClick?: Function
 }
-
-type Props = OwnProps
 
 const SmartRow: FC<Props> = (props: Props): ReactElement => {
    const { headers, row } = props
@@ -20,7 +18,7 @@ const SmartRow: FC<Props> = (props: Props): ReactElement => {
    return (
       <React.Fragment>
          {row && headers.map((header: any, index: number) => (
-            <StyledTableCell key={index} onClick={e => onRowClick(row)}>
+            <StyledTableCell key={index} onClick={e => onRowClick(row)} style={{ cursor: 'pointer' }}>
                {row[header.label]}
             </StyledTableCell>
          ))}

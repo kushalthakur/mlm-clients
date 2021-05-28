@@ -9,10 +9,20 @@ export const memberStyles = makeStyles((theme: Theme) =>
          '& > *': {
             margin: theme.spacing(0.4)
          },
-         marginTop: "20px",
+         marginTop: "10px",
+         marginBottom: "10px",
          textAlign: 'right'
       }
    }))
+
+export const containerStyle = makeStyles((theme: Theme) =>
+   createStyles({
+      root: {
+         marginTop: '10px',
+         padding: "15px",
+         maxWidth: 1600
+      }
+   }));
 
 /**
  *

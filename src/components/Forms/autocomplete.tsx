@@ -26,7 +26,7 @@ export const AutoComplete = (props: Props) => {
                options={options}
                getOptionLabel={(option: any) => option.label}
                getOptionSelected={(option: any, value: any) => option.value === value.value}
-               value={{ label: input.value && input.value, value: "15797193" }}
+               value={{ label: input.value, value: input.value }}
                style={{ marginTop: 15 }}
                size="small"
                autoSelect

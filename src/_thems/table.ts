@@ -5,9 +5,11 @@ export const StyledTableCell = withStyles((theme: Theme) =>
       head: {
          backgroundColor: theme.palette.common.black,
          color: theme.palette.common.white,
+         padding: "8px"
       },
       body: {
          fontSize: 12,
+         padding: "12px"
       },
    }),
 )(TableCell);
