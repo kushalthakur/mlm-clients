@@ -1,42 +1,37 @@
 import React, { FC, ReactElement } from 'react'
-import { connect } from 'react-redux';
-import { Field, reduxForm, getFormValues } from 'redux-form'
+import { connect, useDispatch, useSelector } from 'react-redux';
+import { Field, reduxForm } from 'redux-form'
 import { Container, Paper, Button, Grid } from '@material-ui/core'
 import { History } from 'history'
-import { memberStyles } from '../../_thems'
+import { memberStyles, containerStyle } from '../../_thems'
 import { masterMembers } from '../../store/master.store'
-import { IActionCreator } from '../../actions';
 import { ApplicationState } from '../../reducers';
 import { getMasterState } from '../../store/master/master.selector';
 import { FormInput, ReduxValidation, AutoComplete, FormDatePicker } from '../../components/Forms';
 import { convertOptionsToValue } from '../../utils'
 import { calculateAge } from '../../_helpers'
+import Alerts from '../../components/General/Alerts';
+import { IMasterApiState } from '../../store/master';
 
-interface DispatchProps {
-   requestList: IActionCreator
-   requestMember: IActionCreator
-}
-interface StateProps {
-   memberState: any
-   initialValues?: any
-   formValues?: any
-}
-
-interface OwnProps {
+interface Props {
    history: History
    match: any
    change: Function
    handleSubmit: Function
+   initialValues: any
 }
-
-type Props = DispatchProps & StateProps & OwnProps
 
 const MemberEdit: FC<Props> = (props: Props): ReactElement => {
    const classes = memberStyles();
+   const containerCss = containerStyle()
    const [ages, setAge] = React.useState(0)
    const [isEditable, setIsEditable] = React.useState(false)
    const { memberId } = props.match.params
-   const { requestList, requestMember, memberState, change } = props
+   const { change, initialValues } = props
+   const memberState = useSelector((state: ApplicationState): IMasterApiState => getMasterState(state.members.manageMembers, undefined))
+   const dispatch = useDispatch()
+   let initialAge = initialValues && initialValues.age !== undefined && initialValues.age
+
    const handleChange = (value: any) => {
       setAge(calculateAge(value))
    }
@@ -50,20 +45,27 @@ const MemberEdit: FC<Props> = (props: Props): ReactElement => {
       props.handleSubmit()
    }
    React.useEffect(() => {
-      requestList()
-      requestMember({ urlParams: { memberId } })
-   }, [requestList, requestMember, memberId])
-   let age = props.initialValues && props.initialValues.age !== undefined && props.initialValues.age
+      dispatch(masterMembers.listMaster())
+      dispatch(masterMembers.requestMaster({ urlParams: { memberId } }))
+   }, [dispatch, memberId])
    React.useEffect(() => {
-      change('age', ages || age)
-   }, [change, ages, age])
+      change('age', ages || initialAge)
+   }, [change, ages, initialAge])
    return (
-      <Container component={Paper} maxWidth={"lg"}>
+      <Container component={Paper} maxWidth={"lg"} className={containerCss.root}>
          <div className={classes.root}>
-            <Button type="submit" variant="outlined" color="primary" onClick={back}>Back</Button>
-            {isEditable && <Button variant="outlined" color="primary" onClick={submitHandle}>Update</Button>}
-            <Button type="submit" variant="outlined" color="primary" onClick={handleOnEditable}>{isEditable ? 'Cancel' : 'Edit'}</Button>
+            <Alerts />
          </div>
+         <Grid container className="space-above-below">
+            <Grid item xs>
+               <Button type="submit" variant="contained" color="primary" onClick={back}>Back</Button>
+            </Grid>
+            <Grid item>
+               <Button type="submit" variant="contained" color={isEditable ? 'secondary' : 'primary'} onClick={handleOnEditable}>{isEditable ? 'Cancel' : 'Edit'}</Button> {' '}
+               {isEditable && <Button variant="contained" color="primary" onClick={submitHandle}>Update</Button>}
+            </Grid>
+         </Grid>
+         <br />
          <Grid container spacing={3}>
             <Grid item xs={6}>
                <Field component={FormInput} variant="outlined" label="First Name" name="firstName" type="text" isEditable={isEditable}
@@ -91,25 +93,41 @@ const MemberEdit: FC<Props> = (props: Props): ReactElement => {
                />
             </Grid>
          </Grid>
+         <br />
+         <Grid container className="space-above-below">
+            <Grid item xs>
+               <Button type="submit" variant="contained" color="primary" onClick={back}>Back</Button>
+            </Grid>
+            <Grid item>
+               <Button type="submit" variant="contained" color={isEditable ? 'secondary' : 'primary'} onClick={handleOnEditable}>{isEditable ? 'Cancel' : 'Edit'}</Button> {' '}
+               {isEditable && <Button variant="contained" color="primary" onClick={submitHandle}>Update</Button>}
+            </Grid>
+         </Grid>
       </Container>
    );
 }
 
-const mapStateToProps = (state: ApplicationState): StateProps => {
-   const memberState = getMasterState(state.members.manageMembers, undefined)
+const mapStateToProps = (state: ApplicationState) => {
    return {
-      memberState: memberState,
-      formValues: getFormValues('MemberEditForm')(state) || {},
-      initialValues: memberState.data
+      initialValues: getMasterState(state.members.manageMembers, undefined).data
    }
 }
-export default connect(mapStateToProps, {
-   requestMember: masterMembers.requestMaster,
-   requestList: masterMembers.listMaster
-})(reduxForm({
+
+export default connect(mapStateToProps, null)(reduxForm({
    form: "MemberEditForm",
    enableReinitialize: true,
    onSubmit: (data: any, dispatch: any, props: any) => {
-      console.log('data', data)
+      let body = {
+         id: data && data.id,
+         firstName: data && data.firstName,
+         lastName: data && data.lastName,
+         username: data && data.username,
+         email: data && data.email,
+         phone: data && data.phone,
+         address: data && data.address,
+         age: data && data.age,
+         dateOfBirth: data && data.dateOfBirth
+      }
+      dispatch(masterMembers.updateMaster({ body: body }))
    }
 })(MemberEdit))

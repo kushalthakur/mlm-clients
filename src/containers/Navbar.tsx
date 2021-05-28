@@ -1,6 +1,6 @@
 import React, { FC, ReactElement } from 'react';
-import { AppBar, Toolbar, Typography, InputBase } from '@material-ui/core';
-import { ExitToAppIcons, SearchIcons } from '../components/ui'
+import { AppBar, Toolbar, Typography } from '@material-ui/core';
+import { ExitToAppIcons } from '../components/ui'
 import { navbarStyles } from '../_thems'
 import { Link } from 'react-router-dom';
 
@@ -24,7 +24,7 @@ const Navbar: FC<Props> = (props: Props): ReactElement => {
                   <Link to="/members" color="inherit" className={classes.buttonColor}>Member</Link>
                </div>
                <div className={classes.search}>
-                  <div className={classes.searchIcon}>
+                  {/* <div className={classes.searchIcon}>
                      <SearchIcons />
                   </div>
                   <InputBase
@@ -34,7 +34,7 @@ const Navbar: FC<Props> = (props: Props): ReactElement => {
                         input: classes.inputInput,
                      }}
                      inputProps={{ 'aria-label': 'search' }}
-                  />
+                  /> */}
                </div>
                <ExitToAppIcons />
             </Toolbar>

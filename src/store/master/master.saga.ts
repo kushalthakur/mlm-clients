@@ -7,6 +7,7 @@ import {
 import { getToken, baseURL } from '../selectors'
 import { fetchGetRequest, fetchPostRequest, generateUrlWithRequestParams, encodeQueryData } from '../../utils'
 import { IMasterApiAction, IMasterApiParams } from './IMaster'
+import { history } from '../'
 
 export function* requestMasterOperation(action: IMasterApiAction): IterableIterator<{}> {
    const { type, meta, payload } = action
@@ -29,6 +30,7 @@ export function* requestMasterOperation(action: IMasterApiAction): IterableItera
       } else if (type === MASTER_API_CREATE.REQUEST) {
          yield put(masterApiCreate.success(meta!.uniqueKey, meta!.keys, payload.params, resp.data || resp, resp.error, resp.message || 'Created Successfully'))
       } else if (type === MASTER_API_UPDATE.REQUEST) {
+         !resp.error && (yield call(redirectTo, '/members'))
          yield put(masterApiUpdate.success(meta!.uniqueKey, meta!.keys, payload.params, resp.data || resp, resp.error, resp.message || 'Updated Successfully'))
       } else if (type === MASTER_API_LIST.REQUEST) {
          yield put(masterApiList.success(meta!.uniqueKey, meta!.keys, payload.params, resp.data || resp, resp.error, resp.message || 'List Successfully'))
@@ -64,11 +66,15 @@ const getFullUrl = (baseUrl: string, params: IMasterApiParams) => {
    if (params && params.urlParams) {
       baseUrl = generateUrlWithRequestParams(baseUrl, params.urlParams)
    }
-   if (params && params.queryParams) {
-      baseUrl = `${baseUrl}?${encodeQueryData(params)}`
-   }
    if (params && (params.page || params.pageSize)) {
-      baseUrl = `${baseUrl}?limit=${params.pageSize || 10}&page=${params.page || 0}`
+      baseUrl = `${baseUrl}?limit=${params.pageSize || 10}&page=${params.page || 0}&`
+   }
+   if (params && params.queryParams) {
+      baseUrl = `${baseUrl}${encodeQueryData(params.queryParams)}`
    }
    return baseUrl
+}
+
+const redirectTo = (location: string) => {
+   history.push(location)
 }
