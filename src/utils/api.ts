@@ -2,10 +2,10 @@ import { removeToken } from '../store/selectors'
 import { alerts } from '../actions'
 import store from '../store'
 
-export const fetchGetRequest = (url: string, token: string, body: any, method: string, headers?: Headers) => {
+export const fetchGetRequest = (url: string, token: string, method: string, headers?: Headers) => {
    return fetch(url, {
       method: method,
-      headers: checkHeaders(headers!, token, body)
+      headers: checkHeaders(headers!, token)
    }).then(handleResponse)
 }
 export const fetchPostRequest = (url: string, token: string, body: any, method: string, headers?: Headers) => {
@@ -16,7 +16,7 @@ export const fetchPostRequest = (url: string, token: string, body: any, method: 
    }).then(handleResponse)
 }
 
-function checkHeaders(headers: Headers, token: string, body: any) {
+function checkHeaders(headers: Headers, token: string, body?: any) {
    if (!headers) {
       headers = new Headers()
    }

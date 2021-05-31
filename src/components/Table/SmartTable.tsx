@@ -14,13 +14,14 @@ interface Props {
    headers: Array<ITableHeader>
    handleRowClick?: Function
    manageActivities?: Function
+   handleStatusUpdate?: any
 }
 
 const SmartTable: React.FC<Props> = (props: Props): React.ReactElement => {
    const classes = memberStyles()
    const [currentPage, setCurrentPage] = React.useState(0)
    const sortRef = React.useRef({ fieldName: "", orderBy: DEFAULT_ORDER })
-   const { data, count, headers, manageActivities } = props
+   const { data, count, headers, manageActivities, handleStatusUpdate } = props
    const handleRowClick = (row: any) => {
       if (props.handleRowClick) {
          props.handleRowClick(row)
@@ -34,6 +35,11 @@ const SmartTable: React.FC<Props> = (props: Props): React.ReactElement => {
    const handleSort = (option: any) => {
       sortRef.current = option
       manageActivitiesAction()
+   }
+   const handleStatus = (memberId: number) => {
+      if (memberId) {
+         handleStatusUpdate(memberId)
+      }
    }
    const manageActivitiesAction = () => {
       let args: any = {
@@ -73,6 +79,7 @@ const SmartTable: React.FC<Props> = (props: Props): React.ReactElement => {
                         row={row}
                         headers={headers}
                         onRowClick={handleRowClick}
+                        handleStatus={handleStatus}
                      />
                   </StyledTableRow>
                ))}

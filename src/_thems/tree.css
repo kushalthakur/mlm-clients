@@ -1,5 +1,4 @@
 /* custom-tree.css */
-
 .node__root > circle {
   fill: rgb(176, 196, 222);
 }
@@ -7,10 +6,10 @@
   fill: rgb(176, 196, 222);
 }
 
-
-.node__svg > g {
-  background-image: url("http://imgur.com/SZ8Cm.jpg");
-}
+/* .node__leaf > circle {
+  fill: #4caf50;
+  r: 40;
+} */
 
 
 

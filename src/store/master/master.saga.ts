@@ -1,8 +1,8 @@
 import { SagaIterator } from 'redux-saga'
 import { call, put, select, takeEvery } from 'redux-saga/effects'
 import {
-   requestPaginator, masterApiCreate, masterApiFetch, masterApiList, masterApiUpdate,
-   MASTER_API_PAGINATOR, MASTER_API_CREATE, MASTER_API_FETCH, MASTER_API_LIST, MASTER_API_UPDATE
+   requestPaginator, masterApiCreate, masterApiFetch, masterApiList, masterApiUpdate, masterApiDelete,
+   MASTER_API_PAGINATOR, MASTER_API_CREATE, MASTER_API_FETCH, MASTER_API_LIST, MASTER_API_UPDATE, MASTER_API_DELETE
 } from './master.action'
 import { getToken, baseURL } from '../selectors'
 import { fetchGetRequest, fetchPostRequest, generateUrlWithRequestParams, encodeQueryData } from '../../utils'
@@ -34,6 +34,8 @@ export function* requestMasterOperation(action: IMasterApiAction): IterableItera
          yield put(masterApiUpdate.success(meta!.uniqueKey, meta!.keys, payload.params, resp.data || resp, resp.error, resp.message || 'Updated Successfully'))
       } else if (type === MASTER_API_LIST.REQUEST) {
          yield put(masterApiList.success(meta!.uniqueKey, meta!.keys, payload.params, resp.data || resp, resp.error, resp.message || 'List Successfully'))
+      } else if (type === MASTER_API_DELETE.REQUEST) {
+         yield put(masterApiDelete.success(meta!.uniqueKey, meta!.keys, payload.params, resp.data || resp, resp.error, resp.message || 'Delete Successfully'))
       } else {
          console.log("No action found in saga")
       }
@@ -48,6 +50,8 @@ export function* requestMasterOperation(action: IMasterApiAction): IterableItera
          yield put(masterApiUpdate.failure(meta!.uniqueKey, meta!.keys, payload.params, true, err.message))
       } else if (type === MASTER_API_LIST.REQUEST) {
          yield put(masterApiList.failure(meta!.uniqueKey, meta!.keys, payload.params, true, err.message))
+      } else if (type === MASTER_API_DELETE.REQUEST) {
+         yield put(masterApiDelete.failure(meta!.uniqueKey, meta!.keys, payload.params, true, err.message))
       } else {
          console.log('Catch', err.message)
       }
@@ -60,6 +64,7 @@ export function* watchMasterApiEvent(): SagaIterator {
    yield takeEvery(MASTER_API_CREATE.REQUEST, requestMasterOperation)
    yield takeEvery(MASTER_API_UPDATE.REQUEST, requestMasterOperation)
    yield takeEvery(MASTER_API_LIST.REQUEST, requestMasterOperation)
+   yield takeEvery(MASTER_API_DELETE.REQUEST, requestMasterOperation)
 }
 
 const getFullUrl = (baseUrl: string, params: IMasterApiParams) => {

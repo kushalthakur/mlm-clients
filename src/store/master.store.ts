@@ -20,5 +20,9 @@ export const masterMembers = createMasterApi("@Master/MasterMembers", {
    list: {
       url: "/api/sponsors",
       method: "GET"
+   },
+   delete: {
+      url: "/api/member/:memberId",
+      method: "DELETE"
    }
 })
