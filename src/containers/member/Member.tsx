@@ -44,6 +44,11 @@ const Member: React.FC<Props> = (props: Props): React.ReactElement => {
          props.history.push(`/member/${row.id}`)
       }, 200)
    }
+   const handleStatusUpdate = (params: number) => {
+      if (params) {
+         dispatch(masterMembers.deleteMaster({ urlParams: { memberId: params } }))
+      }
+   }
    const count = memberState.totalCount !== undefined ? memberState.totalCount : 0
    return (
       <Container component={Paper} className={classes.root}>
@@ -65,6 +70,7 @@ const Member: React.FC<Props> = (props: Props): React.ReactElement => {
                const { page, pageSize, ...other } = option
                dispatch(masterMembers.requestPagination({ page, pageSize, queryParams: other }))
             }}
+            handleStatusUpdate={handleStatusUpdate}
          />
       </Container>
    );

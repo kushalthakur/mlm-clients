@@ -6,6 +6,7 @@ export const MASTER_API_FETCH: IRequestType = defineRequestType("@REDUX_MASTER_A
 export const MASTER_API_CREATE: IRequestType = defineRequestType("@REDUX_MASTER_API_CREATE")
 export const MASTER_API_UPDATE: IRequestType = defineRequestType("@REDUX_MASTER_API_UPDATE")
 export const MASTER_API_LIST: IRequestType = defineRequestType("@REDUX_MASTER_API_LIST")
+export const MASTER_API_DELETE: IRequestType = defineRequestType("@REDUX_MASTER_API_DELETE")
 
 export const requestPaginator = {
    request: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams): IStandardAction => {
@@ -188,13 +189,37 @@ export const masterApiList = {
 }
 
 export const masterApiDelete = {
-   request: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams, resources?: any): any => {
-
+   request: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams, resources?: any): IStandardAction => {
+      return {
+         type: MASTER_API_DELETE.REQUEST,
+         meta: {
+            uniqueKey, keys
+         },
+         payload: {
+            params, resources
+         }
+      }
    },
-   success: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams, items: any, error: boolean, message: string): any => {
-
+   success: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams, items: any, error: boolean, message: string): IStandardAction => {
+      return {
+         type: MASTER_API_DELETE.SUCCESS,
+         meta: {
+            uniqueKey, keys
+         },
+         payload: {
+            params, items, error, message
+         }
+      }
    },
    failure: (uniqueKey: string, keys: IMasterApiRequest, params: IMasterApiParams, error: boolean, message: string): any => {
-
+      return {
+         type: MASTER_API_DELETE.SUCCESS,
+         meta: {
+            uniqueKey, keys
+         },
+         payload: {
+            params, error, message
+         }
+      }
    }
 }
