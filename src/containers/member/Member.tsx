@@ -55,7 +55,11 @@ const Member: React.FC<Props> = (props: Props): React.ReactElement => {
          <Grid container className="space-above-below">
             <Grid item xs>
                <Button variant="contained" color="primary" onClick={filters}>Filter</Button> {' '}
-               {filter && <TextField name="firstName" size="small" variant="outlined" onChange={handleFilter} />}
+               {filter && <>
+                  <TextField name="firstName" placeholder="First Name" size="small" variant="outlined" onChange={handleFilter} autoComplete="off" /> {' '}
+                  {/* <TextField name="lastName" placeholder="Last Name" size="small" variant="outlined" onChange={handleFilter} autoComplete="off" />{' '}
+                  <TextField name="username" placeholder="Username" size="small" variant="outlined" onChange={handleFilter} autoComplete="off" /> */}
+               </>}
             </Grid>
             <Grid item>
                <Button variant="contained" color="primary" onClick={openModal}>Add</Button>

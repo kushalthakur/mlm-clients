@@ -1,15 +1,39 @@
 import React, { FC, ReactElement } from 'react';
 import { AppBar, Toolbar, Typography } from '@material-ui/core';
+import { confirmAlert } from 'react-confirm-alert'
+import { History } from 'history'
 import { ExitToAppIcons } from '../components/ui'
 import { navbarStyles } from '../_thems'
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
+import { removeToken } from '../store/selectors'
 
 interface Props {
-
+   history: History
 }
 
 const Navbar: FC<Props> = (props: Props): ReactElement => {
    const classes = navbarStyles();
+   const handleLogout = () => {
+      confirmAlert({
+         message: 'Are you sure you want to Logout?',
+         buttons: [
+            {
+               label: 'Yes',
+               onClick: () => {
+                  removeToken()
+                  setTimeout(() => {
+                     props.history.push("/")
+                  }, 100)
+               }
+            },
+            {
+               label: 'No',
+               onClick: () => { }
+            }
+         ],
+         closeOnClickOutside: false
+      })
+   }
    return (
       <React.Fragment>
          <AppBar position="static" style={{ backgroundColor: "#1fa3d8" }}>
@@ -23,20 +47,7 @@ const Navbar: FC<Props> = (props: Props): ReactElement => {
                   <Link to="/tree" color="inherit" className={classes.buttonColor}>Tree</Link>
                   <Link to="/members" color="inherit" className={classes.buttonColor}>Member</Link>
                </div>
-               <div className={classes.search}>
-                  {/* <div className={classes.searchIcon}>
-                     <SearchIcons />
-                  </div>
-                  <InputBase
-                     placeholder="Search…"
-                     classes={{
-                        root: classes.inputRoot,
-                        input: classes.inputInput,
-                     }}
-                     inputProps={{ 'aria-label': 'search' }}
-                  /> */}
-               </div>
-               <ExitToAppIcons />
+               <ExitToAppIcons onClick={handleLogout} />
             </Toolbar>
          </AppBar>
       </React.Fragment>

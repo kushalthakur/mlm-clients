@@ -1,5 +1,5 @@
 import React, { FC, ReactElement } from 'react'
-import Link from '@material-ui/core/Link'
+import { Link } from '@material-ui/core'
 import { confirmAlert } from 'react-confirm-alert'
 import 'react-confirm-alert/src/react-confirm-alert.css'
 import { ITableHeader } from '../TableHeader/models'
@@ -23,7 +23,6 @@ const SmartRow: FC<Props> = (props: Props): ReactElement => {
       e.preventDefault();
       e.stopPropagation();
       confirmAlert({
-         // title: 'Confirm to submit',
          message: 'Are you sure you want to change status?',
          buttons: [
             {
@@ -47,9 +46,10 @@ const SmartRow: FC<Props> = (props: Props): ReactElement => {
          {row && headers.map((header: any, index: number) => (
             (header.label) === "status" ?
                <StyledTableCell key={index}>
-                  <Link href="#" onClick={(e: React.SyntheticEvent) => handleClickOnStatus(e, row.id)} style={{ color: "rgba(0, 0, 0, 0.87)", textDecoration: "none" }}>
-                     {row[header.label]}
-                  </Link>
+                  {row.status === 'ACTIVE' ?
+                     <Link href="#" onClick={(e: React.SyntheticEvent) => handleClickOnStatus(e, row.id)} style={{ color: "rgba(0, 0, 0, 0.87)", textDecoration: "none" }}>
+                        {row[header.label]}
+                     </Link> : row[header.label]}
                </StyledTableCell> :
                <StyledTableCell key={index} onClick={e => onRowClick(row)} style={{ cursor: 'pointer' }}>
                   {row[header.label]}

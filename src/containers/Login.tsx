@@ -1,8 +1,8 @@
 import { FC, ReactElement } from 'react'
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
-import { Link, Redirect } from 'react-router-dom'
-import { Avatar, Button, CssBaseline, FormControlLabel, Checkbox, Grid, Typography, Container } from '@material-ui/core'
+import { Redirect } from 'react-router-dom'
+import { Avatar, Button, CssBaseline, FormControlLabel, Checkbox, Typography, Container } from '@material-ui/core'
 import { PermIdentitySharpIcons } from '../components/ui'
 import { FormInput, ReduxValidation } from '../components/Forms'
 import { loginStyles } from '../_thems'
@@ -51,13 +51,13 @@ const Login: FC<Props> = (props: Props): ReactElement => {
                <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
                   Sign In
                </Button>
-               <Grid container>
+               {/* <Grid container>
                   <Grid item xs>
                      <Link to="/forgot/password" style={{ textDecoration: "none" }}>
                         Forgot password?
                      </Link>
                   </Grid>
-               </Grid>
+               </Grid> */}
             </form>
          </div>
       </Container>

@@ -11,13 +11,13 @@ interface Props {
    options: Array<any>
    autoFocus: string
    isEditable: boolean
-   disabled: string | boolean
+   disabled: any
    defaultValue: string
    meta: any
 }
 
 export const AutoComplete = (props: Props) => {
-   const { input, label, name, variant, options, isEditable, defaultValue = '-', meta } = props
+   const { input, label, name, variant, options, disabled, isEditable, defaultValue = '-', meta } = props
    let error = meta.touched && meta.error ? true : false
    return (
       <React.Fragment>
@@ -30,6 +30,7 @@ export const AutoComplete = (props: Props) => {
                style={{ marginTop: 15 }}
                size="small"
                autoSelect
+               disabled={disabled}
                renderInput={(params) =>
                   <TextField
                      {...params}
