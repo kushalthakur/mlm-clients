@@ -1,26 +1,12 @@
 import React from 'react'
-// import Loadable from 'react-loadable'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
 import { History } from 'history'
 import { ApplicationState } from './reducers'
-
 import Login from './containers/Login'
-// const Login = Loadable({
-//    loader: () => import('./containers/Login'),
-//    loading: () => <div className="loading" />
-// })
-import ForgotPassword from './containers/ForgotPassword'
-// const ForgotPassword = Loadable({
-//    loader: () => import('./containers/ForgotPassword'),
-//    loading: () => <div className="loading" />
-// })
+// import ForgotPassword from './containers/ForgotPassword'
 import RootContainer from './containers/RootContainer'
-// const RootContainer = Loadable({
-//    loader: () => import('./containers/RootContainer'),
-//    loading: () => <div className="loading" />
-// })
 
 interface StateProps {
    isAuthenticated: boolean
@@ -48,7 +34,7 @@ class AppInitialize extends React.Component<Props> {
             <ConnectedRouter history={history}>
                <Switch>
                   <Route exact path="/" component={Login} />
-                  <Route exact path="/forgot/password" component={ForgotPassword} />
+                  {/* <Route exact path="/forgot/password" component={ForgotPassword} /> */}
                   <PrivateRoute path='/' isAuthenticated={isAuthenticated} component={(props: any) => <RootContainer {...props} />} />
                </Switch>
             </ConnectedRouter>

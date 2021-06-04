@@ -1,28 +1,21 @@
 import React from 'react'
-// import Loadable from 'react-loadable'
 import { Switch, Route } from 'react-router-dom'
 import Navbar from './Navbar'
 import ModalManager from '../components/Modals/ModalManager'
 import D3Tree from './tree/D3Tree'
 import Member from './member/Member'
 import MemberEdit from './member/MemberEdit'
+import { history } from '../store'
 
-interface StateProps {
-
-}
-interface DispatchProps {
+interface Props {
 
 }
-interface State {
-
-}
-type Props = StateProps & DispatchProps
-class RootContainer extends React.Component<State, Props> {
+class RootContainer extends React.Component<{}, Props> {
    public render(): JSX.Element {
       return (
          <React.Fragment>
             <ModalManager />
-            <Navbar />
+            <Navbar history={history} />
             <Switch>
                <Route exact path="/tree" component={D3Tree} />
                <Route exact path="/members" component={Member} />

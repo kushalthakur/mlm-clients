@@ -27,8 +27,7 @@ const ForgotPassword: FC<any> = (props): ReactElement => {
                </Typography>
                <form className={classes.form} noValidate onSubmit={handleSubmit}>
                   <Field component={FormInput} variant="outlined" margin="normal" fullWidth label="Email Address" name="email"
-                     isEditable={true}
-                     validate={[ReduxValidation.required, ReduxValidation.email]}
+                     isEditable={true} validate={[ReduxValidation.required, ReduxValidation.email]}
                   />
                   <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
                      Sign In
@@ -50,7 +49,7 @@ const ForgotPassword: FC<any> = (props): ReactElement => {
 const ForgotPasswordForm = reduxForm({
    form: "ForgotPasswordForm",
    onSubmit: (data: IForgotPassword, dispatch: any, props: any) => {
-      console.log('data', data.email)
+      console.log('data', data)
    }
 })(ForgotPassword)
 

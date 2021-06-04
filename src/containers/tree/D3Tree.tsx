@@ -7,8 +7,8 @@ import { getTree } from '../../actions';
 import '../../_thems/tree.css'
 
 const containerStyles = {
-   width: '97vw',
-   height: '88vh',
+   width: '100vw',
+   height: '93vh',
 }
 interface Props {
 
@@ -46,7 +46,7 @@ const D3Tree: React.FC<Props> = (props: Props): React.ReactElement => {
             nodeSize={{ x: 120, y: 120 }}
             orientation={'vertical'}
             translate={translate}
-            scaleExtent={({ max: 0.6, min: 0.4 })}
+            scaleExtent={({ max: 0.8, min: 0.2 })}
             renderCustomNodeElement={renderRectSvgNode}
          />
       </div>

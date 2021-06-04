@@ -1,6 +1,6 @@
 import React, { FC, ReactElement } from 'react'
 import { connect, useDispatch, useSelector } from 'react-redux';
-import { Field, reduxForm } from 'redux-form'
+import { Field, reduxForm, getFormValues } from 'redux-form'
 import { Container, Paper, Button, Grid } from '@material-ui/core'
 import { History } from 'history'
 import { memberStyles, containerStyle } from '../../_thems'
@@ -19,6 +19,7 @@ interface Props {
    change: Function
    handleSubmit: Function
    initialValues: any
+   formValues: any
 }
 
 const MemberEdit: FC<Props> = (props: Props): ReactElement => {
@@ -75,8 +76,8 @@ const MemberEdit: FC<Props> = (props: Props): ReactElement => {
                <Field component={FormInput} variant="outlined" label="Username" name="username" isEditable={isEditable}
                   validate={[ReduxValidation.required]} />
                <Field component={FormInput} variant="outlined" label="Address" name="address" isEditable={isEditable} />
-               <Field component={AutoComplete} variant="outlined" label="Sponsor ID" name="sponsorId" isEditable={isEditable}
-                  options={convertOptionsToValue(memberState.list, 'sponsorId')} validate={[ReduxValidation.required]}
+               <Field component={AutoComplete} variant="outlined" label="Sponsor ID" name="sponsorId" options={convertOptionsToValue(memberState.list, 'sponsorId')}
+                  isEditable={isEditable} validate={[ReduxValidation.required]} disabled
                />
             </Grid>
             <Grid item xs={6}>
@@ -109,7 +110,8 @@ const MemberEdit: FC<Props> = (props: Props): ReactElement => {
 
 const mapStateToProps = (state: ApplicationState) => {
    return {
-      initialValues: getMasterState(state.members.manageMembers, undefined).data
+      initialValues: getMasterState(state.members.manageMembers, undefined).data,
+      formValues: getFormValues("MemberEditForm")(state) || {}
    }
 }
 
