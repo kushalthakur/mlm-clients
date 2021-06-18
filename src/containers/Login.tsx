@@ -66,7 +66,7 @@ const Login: FC<Props> = (props: Props): ReactElement => {
 
 const LoginForm = reduxForm({
    form: 'LoginForm',
-   onSubmit: (data: IUserState, dispatch, props: any) => {
+   onSubmit: (data: IUserState, dispatch: any, props: any) => {
       props.login({ email: data.email, password: data.password })
          .then((result: any) => {
             if (result && result.payload && result.payload.data) {
