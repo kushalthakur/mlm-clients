@@ -12,7 +12,7 @@ import { history } from '../'
 export function* requestMasterOperation(action: IMasterApiAction): IterableIterator<{}> {
    const { type, meta, payload } = action
    try {
-      const token = yield call(getToken)
+      let token = yield call(getToken)
       const params = payload.params as IMasterApiParams
       let resp: any = undefined
       let url = `${yield select(baseURL)}${meta!.keys.url}`
@@ -39,7 +39,7 @@ export function* requestMasterOperation(action: IMasterApiAction): IterableItera
       } else {
          console.log("No action found in saga")
       }
-   } catch (err) {
+   } catch (err: any) {
       if (type === MASTER_API_PAGINATOR.REQUEST) {
          yield put(requestPaginator.failure(meta!.uniqueKey, meta!.keys, payload.params, true, err.message))
       } else if (type === MASTER_API_FETCH.REQUEST) {
@@ -80,6 +80,6 @@ const getFullUrl = (baseUrl: string, params: IMasterApiParams) => {
    return baseUrl
 }
 
-const redirectTo = (location: string) => {
+export const redirectTo = (location: string) => {
    history.push(location)
 }

@@ -1,15 +1,23 @@
 import React, { FC, ReactElement } from 'react';
 import { AppBar, Toolbar, Typography } from '@material-ui/core';
 import { confirmAlert } from 'react-confirm-alert'
+import { connect } from 'react-redux'
 import { History } from 'history'
 import { ExitToAppIcons } from '../components/ui'
 import { navbarStyles } from '../_thems'
 import { Link } from 'react-router-dom'
 import { removeToken } from '../store/selectors'
+import { currentUser } from '../actions'
 
-interface Props {
+interface DispatchProps {
+   currentUser: Function
+}
+
+interface OwnProps {
    history: History
 }
+
+type Props = DispatchProps & OwnProps
 
 const Navbar: FC<Props> = (props: Props): ReactElement => {
    const classes = navbarStyles();
@@ -21,6 +29,7 @@ const Navbar: FC<Props> = (props: Props): ReactElement => {
                label: 'Yes',
                onClick: () => {
                   removeToken()
+                  props.currentUser("")
                   setTimeout(() => {
                      props.history.push("/")
                   }, 100)
@@ -54,4 +63,8 @@ const Navbar: FC<Props> = (props: Props): ReactElement => {
    );
 }
 
-export default Navbar
+const mapDispatchToProps: DispatchProps = {
+   currentUser: currentUser
+}
+
+export default connect(null, mapDispatchToProps)(Navbar)

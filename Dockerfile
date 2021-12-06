@@ -1,16 +1,15 @@
 # pull the base image
-FROM node:alpine
+FROM node:15.14.0-alpine
 # set the working direction
 WORKDIR /app
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
 # install app dependencies
-COPY package.json ./
-COPY package-lock.json ./
+COPY package*.json /app
 # install dependencies
 RUN npm install
 #RUN npm run build
 # add app
-COPY . ./
+COPY . .
+# PORT
+EXPOSE 3006
 # start app
 CMD ["npm", "start"]

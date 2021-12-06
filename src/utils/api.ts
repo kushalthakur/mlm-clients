@@ -1,14 +1,16 @@
-import { removeToken } from '../store/selectors'
+import { getToken, isTokenExpire } from '../store/selectors'
 import { alerts } from '../actions'
 import store from '../store'
 
-export const fetchGetRequest = (url: string, token: string, method: string, headers?: Headers) => {
+export const fetchGetRequest = async (url: string, token: string, method: string, headers?: Headers) => {
+   await isTokenExpire()
    return fetch(url, {
       method: method,
       headers: checkHeaders(headers!, token)
    }).then(handleResponse)
 }
-export const fetchPostRequest = (url: string, token: string, body: any, method: string, headers?: Headers) => {
+export const fetchPostRequest = async (url: string, token: string, body: any, method: string, headers?: Headers) => {
+   await isTokenExpire()
    return fetch(url, {
       method: method,
       headers: checkHeaders(headers!, token, body),
@@ -16,10 +18,12 @@ export const fetchPostRequest = (url: string, token: string, body: any, method: 
    }).then(handleResponse)
 }
 
-function checkHeaders(headers: Headers, token: string, body?: any) {
+function checkHeaders(headers: Headers, token: any, body?: any) {
    if (!headers) {
       headers = new Headers()
    }
+   // replace prev token with new accessToken
+   token = getToken()
    if (token) {
       headers.set('Authorization', `Bearer ${token}`)
    }
@@ -34,8 +38,6 @@ function checkHeaders(headers: Headers, token: string, body?: any) {
 function handleResponse(response: Response) {
    return new Promise((resolve, reject) => {
       if (response.status === 403 || response.status === 401) {
-         removeToken()
-         window.location.reload()
          let err = new Error('Unauthorized')
          reject(err)
       }
