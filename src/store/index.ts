@@ -8,7 +8,7 @@ import { rootReducer } from '../reducers'
 import rootSaga from './saga'
 import { alerts } from '../actions'
 import { config } from '../config'
-import { getToken, removeToken } from './selectors'
+import { getToken, isTokenExpire } from './selectors'
 
 export const history: History = createBrowserHistory()
 
@@ -18,7 +18,8 @@ const instance: AxiosInstance = axios.create({
    responseType: "json"
 })
 // request interceptors
-instance.interceptors.request.use((req: AxiosRequestConfig) => {
+instance.interceptors.request.use(async (req: AxiosRequestConfig) => {
+   await isTokenExpire()
    let appInitializationState = store.getState().authenticate
    if (appInitializationState && appInitializationState.isAuthenticated) {
       req.headers.Authorization = `Bearer ${getToken()}`
@@ -36,8 +37,6 @@ instance.interceptors.response.use((response: AxiosResponse) => {
       error && error.response && error.response.data && store.dispatch(alerts.error(error.response.data.message))
       return error.response.data
    } else if (error.response.status === 403 || error.response.status === 401) {
-      removeToken()
-      window.location.reload()
       return new Error('Unauthorized')
    }
    throw error;

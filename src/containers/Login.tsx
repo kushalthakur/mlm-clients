@@ -9,7 +9,7 @@ import { loginStyles } from '../_thems'
 import { ApplicationState, IUserState, IAuthenticateState } from '../reducers'
 import { authenticate, currentUser } from '../actions'
 import Alerts from '../components/General/Alerts'
-import { storageUser } from '../store/selectors'
+import { storageUser, setAccessToken } from '../store/selectors'
 
 interface StateProps {
    authenticateState: IAuthenticateState
@@ -72,6 +72,7 @@ const LoginForm = reduxForm({
             if (result && result.payload && result.payload.data) {
                props.history.push('/tree')
                storageUser(result)
+               setAccessToken(result.payload.token)
                props.currentUser(result.payload.token)
             }
          }).catch((err: any) => {

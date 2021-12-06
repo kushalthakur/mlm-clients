@@ -7,10 +7,12 @@ import Member from './member/Member'
 import MemberEdit from './member/MemberEdit'
 import { history } from '../store'
 
-interface Props {
+interface StateProps {
 
 }
-class RootContainer extends React.Component<{}, Props> {
+
+type Props = StateProps
+class RootContainer extends React.Component<StateProps, Props> {
    public render(): JSX.Element {
       return (
          <React.Fragment>
