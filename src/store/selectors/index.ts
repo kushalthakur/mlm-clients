@@ -72,16 +72,8 @@ export function getUser() {
 }
 
 export function removeToken() {
-   localStorage.removeItem("jwtToken")
-   sessionStorage.removeItem("jwtToken")
-   localStorage.removeItem('refreshToken')
-   sessionStorage.removeItem('refreshToken')
-   localStorage.removeItem('exp')
-   sessionStorage.removeItem('exp')
-   localStorage.removeItem('tokenType')
-   sessionStorage.removeItem('tokenType')
-   localStorage.removeItem("currentUser")
-   sessionStorage.removeItem("currentUser")
+   localStorage.clear()
+   sessionStorage.clear()
 }
 
 export const baseURL = () => {
