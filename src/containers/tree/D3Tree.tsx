@@ -1,7 +1,7 @@
 import React from 'react'
 import Tree from 'react-d3-tree'
 import { useDispatch, useSelector } from 'react-redux';
-import { useCenteredTree } from '../../components/Tree/useCenteredTree'
+import { useCenteredTree } from '../../components/tree/useCenteredTree'
 import { ApplicationState, ITreeState } from '../../reducers';
 import { getTree } from '../../actions';
 import '../../_thems/tree.css'
